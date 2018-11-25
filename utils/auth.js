@@ -47,6 +47,17 @@ export function requireAuth(to, from, next) {
   }
 }
 
+export function requireNotAuth(to, from, next) {
+  if (isLoggedIn()) {
+    next({
+      path: '/private',
+      query: { redirect: to.fullPath }
+    });
+  } else {
+    next();
+  }
+}
+
 export function getIdToken() {
   return localStorage.getItem(ID_TOKEN_KEY);
 }
