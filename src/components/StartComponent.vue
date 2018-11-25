@@ -1,7 +1,10 @@
 <template>
   <div>
-    <h3 class="text-center">Private page!</h3>
+    <h3 class="text-center">Start Page</h3>
     <hr/>
+
+    <h4 class="text-center"> Start using the FundsKeeper right now! Click `Log In`! </h4>
+
   </div>
 </template>
 
@@ -10,10 +13,10 @@ import { isLoggedIn } from '../../utils/auth';
 import { getUserId } from '../../utils/api';
 
 export default {
-  name: 'PrivateComponent',
+  name: 'StartComponent',
   data() {
     return {
-      userid: '',
+      user: '',
     };
   },
   methods: {
@@ -22,15 +25,13 @@ export default {
     },
     getUserId() {
       getUserId().then((resp) => {
-        this.userid = resp.userid;
         console.log(resp);
-        console.log('hello from get user id');
       });
     },
   },
-  mounted() {
-    this.getUserId();
-  },
+  // mounted() {
+    // this.getUserId();
+  // },
 };
 </script>
 

@@ -1,14 +1,15 @@
 <template>
   <div>
-    <h3 class="text-center">Home</h3>
+    <h3 class="text-center">Home page!</h3>
     <hr/>
 
-    <p class="text-center"> Login to get to the private page. </p>
-
+    <h4> User id: {{userid}}</h4>
+    <FinanceComponent/>
   </div>
 </template>
 
 <script>
+import { FinanceComponent } from '@/components/FinanceComponent';
 import { isLoggedIn } from '../../utils/auth';
 import { getUserId } from '../../utils/api';
 
@@ -16,8 +17,11 @@ export default {
   name: 'HomeComponent',
   data() {
     return {
-      user: '',
+      userid: '',
     };
+  },
+  components: {
+    FinanceComponent,
   },
   methods: {
     isLoggedIn() {
@@ -25,13 +29,15 @@ export default {
     },
     getUserId() {
       getUserId().then((resp) => {
+        this.userid = resp.userid;
         console.log(resp);
+        console.log('hello from get user id');
       });
     },
   },
-  // mounted() {
-    // this.getUserId();
-  // },
+  mounted() {
+    this.getUserId();
+  },
 };
 </script>
 
