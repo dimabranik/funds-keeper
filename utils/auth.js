@@ -50,7 +50,7 @@ export function requireAuth(to, from, next) {
 export function requireNotAuth(to, from, next) {
   if (isLoggedIn()) {
     next({
-      path: '/private',
+      path: '/home',
       query: { redirect: to.fullPath }
     });
   } else {
