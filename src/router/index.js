@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import StartComponent from '@/components/StartComponent';
 import HomeComponent from '@/components/HomeComponent';
-import PrivateComponent from '@/components/PrivateComponent';
 import Callback from '@/components/callback';
 import { requireAuth, requireNotAuth } from '../../utils/auth';
 
@@ -12,15 +12,15 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HomeComponent',
+      name: 'StartComponent',
       beforeEnter: requireNotAuth,
-      component: HomeComponent,
+      component: StartComponent,
     },
     {
-      path: '/private',
-      name: 'PrivateComponent',
+      path: '/home',
+      name: 'HomeComponent',
       beforeEnter: requireAuth,
-      component: PrivateComponent,
+      component: HomeComponent,
     },
     {
       path: '/callback',
