@@ -1,9 +1,37 @@
 <template>
   <nav class="navbar navbar-default">
     <div class="navbar-header">
-      <router-link to="/" class="navbar-brand"> FundsKeeper </router-link>
+      <div class="text-center title text-gold" > FundsKeeper </div>
+
+      <router-link to="/" class="navbar-brand" v-bind:class="{ active: location === 'home', hidden: hidden }" > Home </router-link>
+      <!-- , { hidden: hidden === 'true' } -->
+
+      <router-link to="/statistic" class="navbar-brand" v-bind:class="{ active: location === 'statistic', hidden: hidden }" > Statistic </router-link>
+
+      <router-link to="/account" class="navbar-brand" v-bind:class="{ active: location === 'account', hidden: hidden }" > Account </router-link>
     </div>
-    <ul class="nav navbar-nav navbar-right">
+
+    
+
+    
+    
+
+    
+    <!-- width: 300px;  -->
+    <!-- position: absolute;  -->
+    <!-- margin-left: 30%; -->
+    <!-- display: inline-block; -->
+    <!-- class="text-center"  -->
+
+
+
+
+
+
+    <!-- margin-left: calc(50% - 220px);  -->
+
+    <!-- class="text-center" -->
+    <ul class="nav navbar-nav navbar-right logout">
       <li>
         <button class="btn btn-danger log" v-show="isLoggedIn()" @click="handleLogout()">Log out </button>
         <button class="btn btn-info log" v-show="!isLoggedIn()" @click="handleLogin()">Log In</button>
@@ -17,6 +45,10 @@ import { isLoggedIn, login, logout } from '../../utils/auth';
 
 export default {
   name: 'app-nav',
+  props: {
+    location: String,
+    hidden: Boolean,
+  },
   methods: {
     handleLogin() {
       login();
@@ -38,4 +70,28 @@ export default {
 .log {
   margin: 5px 10px 0 0;
 }
+
+.title {
+  position: absolute;
+  margin-left: calc(50% - 60px); 
+  font-size: 30px; 
+
+  /* display: inline; */
+  /* width: 40%;  */
+  /* background-color: red;   */
+
+  /* margin: auto; */
+  /* width: 50%; */
+
+}
+
+.active {
+  border: 1px solid black;
+  border-radius: 30px;
+}
+
+.text-gold {
+  color: #da950d;
+}
+
 </style>

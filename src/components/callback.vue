@@ -3,6 +3,7 @@
 <script>
 
 import { setIdToken, setAccessToken } from '../../utils/auth';
+import { login } from '../../utils/api';
 
 export default {
   name: '',
@@ -10,6 +11,7 @@ export default {
     this.$nextTick(() => {
       setAccessToken();
       setIdToken();
+      login();
       window.location.href = '/';
     });
   },

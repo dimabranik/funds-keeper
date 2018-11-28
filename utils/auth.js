@@ -8,13 +8,14 @@ const ACCESS_TOKEN_KEY = 'access_token';
 const CLIENT_ID = '3E6jS6DfPiBPBXHfmViCYORWVd7K4Hmi';
 const CLIENT_DOMAIN = 'secure-auth0.eu.auth0.com';
 const REDIRECT = 'http://localhost:8080/callback';
-const SCOPE = 'full_access';
+// const SCOPE = 'full_access profile';
+const SCOPE = 'openid profile';
 const AUDIENCE = 'http://fundskeeper.com';
 
 
 var auth = new auth0.WebAuth({
   clientID: CLIENT_ID,
-  domain: CLIENT_DOMAIN
+  domain: CLIENT_DOMAIN,
 });
 
 export function login() {
@@ -22,7 +23,7 @@ export function login() {
     responseType: 'token id_token',
     redirectUri: REDIRECT,
     audience: AUDIENCE,
-    scope: SCOPE
+    scope: SCOPE,
   });
 }
 

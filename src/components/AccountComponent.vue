@@ -1,26 +1,22 @@
 <template>
   <div>
-    <app-nav location="home" />
+    <app-nav location="account" />
 
-    Hello from home!!!
-
+    <h2> Account </h2>
     userid = {{ userid }}
-
-    idToken = ' {{ idToken }} '
   </div>
 </template>
 
 <script>
 import AppNav from './AppNav';
-import { isLoggedIn, getIdToken } from '../../utils/auth';
+import { isLoggedIn } from '../../utils/auth';
 import { getUserId } from '../../utils/api';
 
 export default {
-  name: 'home-component',
+  name: 'account-component',
   data() {
     return {
       userid: '',
-      idToken: '',
     };
   },
   components: {
@@ -37,13 +33,9 @@ export default {
         console.log(resp);
       });
     },
-    getIdToken() {
-      this.idToken = getIdToken();
-    },
   },
   mounted() {
     this.getUserId();
-    this.getIdToken();
   },
 };
 </script>
