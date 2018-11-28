@@ -24,14 +24,15 @@ const authCheck = jwt({
     algorithms: ['RS256']
 });
 
-app.get('/api/userid', authCheck, (req,res) => {
+app.get('/api/userinfo', authCheck, (req,res) => {
   
-  const authorization = req.get('Authorization');
+  // check token, find user (or create), send back user-info 
+  // const authorization = req.get('Authorization');
 
-  // get from db user id with such token
-  const userid = 155
+  console.log("/api/userinfo request")
+  // console.log(req)
 
-  res.json({userid: userid});
+  res.json({nickname: 'IvanIvanov', accounts: {income: 1555, expenses: 200}});
 })
 
 app.listen(3333);

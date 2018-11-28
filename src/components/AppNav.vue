@@ -3,34 +3,13 @@
     <div class="navbar-header">
       <div class="text-center title text-gold" > FundsKeeper </div>
 
-      <router-link to="/" class="navbar-brand" v-bind:class="{ active: location === 'home', hidden: hidden }" > Home </router-link>
-      <!-- , { hidden: hidden === 'true' } -->
+      <router-link to="/" class="navbar-brand" v-bind:class="{ active: location === 'home'}" v-show="isLoggedIn()" > Home </router-link>
 
-      <router-link to="/statistic" class="navbar-brand" v-bind:class="{ active: location === 'statistic', hidden: hidden }" > Statistic </router-link>
+      <router-link to="/statistic" class="navbar-brand" v-bind:class="{ active: location === 'statistic' }"  v-show="isLoggedIn()" > Statistic </router-link>
 
-      <router-link to="/account" class="navbar-brand" v-bind:class="{ active: location === 'account', hidden: hidden }" > Account </router-link>
+      <router-link to="/account" class="navbar-brand" v-bind:class="{ active: location === 'account' }"  v-show="isLoggedIn()" > Account </router-link>
     </div>
 
-    
-
-    
-    
-
-    
-    <!-- width: 300px;  -->
-    <!-- position: absolute;  -->
-    <!-- margin-left: 30%; -->
-    <!-- display: inline-block; -->
-    <!-- class="text-center"  -->
-
-
-
-
-
-
-    <!-- margin-left: calc(50% - 220px);  -->
-
-    <!-- class="text-center" -->
     <ul class="nav navbar-nav navbar-right logout">
       <li>
         <button class="btn btn-danger log" v-show="isLoggedIn()" @click="handleLogout()">Log out </button>
