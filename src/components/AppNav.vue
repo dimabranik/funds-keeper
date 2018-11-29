@@ -1,8 +1,6 @@
 <template>
-  <nav class="navbar navbar-default">
+  <nav class="navbar navbar-default custom-navbar">
     <div class="navbar-header">
-      <div class="text-center title text-gold" > FundsKeeper </div>
-
       <router-link to="/" class="navbar-brand" v-bind:class="{ active: location === 'home'}" v-show="isLoggedIn()" > Home </router-link>
 
       <router-link to="/statistic" class="navbar-brand" v-bind:class="{ active: location === 'statistic' }"  v-show="isLoggedIn()" > Statistic </router-link>
@@ -16,6 +14,8 @@
         <button class="btn btn-info log" v-show="!isLoggedIn()" @click="handleLogin()">Log In</button>
       </li>
     </ul>
+
+    <div class="text-center title text-gold" > FundsKeeper </div>
   </nav>
 </template>
 
@@ -51,17 +51,26 @@ export default {
 }
 
 .title {
-  position: absolute;
-  margin-left: calc(50% - 60px); 
-  font-size: 30px; 
+  /* working */
+  /* position: absolute; */
+  /* margin-left: calc(50% - 85px);  */
+  /* font-size: 30px;  */
+  /* end */
 
+  /* working 2 */
+  margin: auto;
+  font-size: 30px;
+  width: 200px;
+  /* end */
+
+  /* background-color: red; */
+  /* display: inline-block; */
+  /* width: 100% !important; */
   /* display: inline; */
   /* width: 40%;  */
   /* background-color: red;   */
-
   /* margin: auto; */
   /* width: 50%; */
-
 }
 
 .active {
@@ -70,7 +79,14 @@ export default {
 }
 
 .text-gold {
-  color: #da950d;
+  /* color: #da950d; */
+  color: #ef8913;
+}
+
+.custom-navbar {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 50px;
 }
 
 </style>

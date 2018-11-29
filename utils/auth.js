@@ -8,7 +8,6 @@ const ACCESS_TOKEN_KEY = 'access_token';
 const CLIENT_ID = '3E6jS6DfPiBPBXHfmViCYORWVd7K4Hmi';
 const CLIENT_DOMAIN = 'secure-auth0.eu.auth0.com';
 const REDIRECT = 'http://localhost:8080/callback';
-// const SCOPE = 'full_access profile';
 const SCOPE = 'openid profile';
 const AUDIENCE = 'http://fundskeeper.com';
 
