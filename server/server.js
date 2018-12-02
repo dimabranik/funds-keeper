@@ -24,7 +24,7 @@ const authCheck = jwt({
     algorithms: ['RS256']
 });
 
-user_data = {
+var user_data = {
   nickname: 'IvanIvanov', 
   accounts: {
     totalMoney: 25000, 
