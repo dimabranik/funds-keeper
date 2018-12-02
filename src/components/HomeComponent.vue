@@ -1,53 +1,41 @@
 <template>
-  <div>
+  <div class="home">
     <app-nav location="home" />
 
-    <!-- <br /> -->
-
-    <!-- nickname: {{ nickname }}
-
-    <br /> <br />
-
-    idToken: <br />
-     {{ idToken }} 
-
-    <br /> <br />
-
-    token: <br />
-    
-    {{ token }} 
-
-    <br /> <br />
-
-    income: <br />
-     {{ income }} 
-
-    <br /> <br />
-
-    expenses: <br />
-     {{ expenses }} 
-
-    <br /> <br /> -->
-
-
-     
+  <!-- <div class="home"> -->
       <h2 class="text-center"> {{ nickname }} </h2>
       <br />
 
-    <div class="circle text-center">
-      <button class="plus"> + </button>
-      <!-- v-on="click" {} -->
-      Income: {{ income }}
-      <hr />
-      <button class="minus"> - </button>
-      Expenses: {{ expenses }}
+
+
+    <div class="monthbox text-center">
+      Current month:
+      <div class="roundData"> {{ curMonth }} </div>
     </div>
 
-    <div class="money text-center">
-      Money amoung: 4000
+    <div class="moneybox text-center">
+      Total money:
+      <div class="roundData"> {{ totalMoney }} </div>
 
       <!-- <span v-bind=""  if sum < 0 color red -->
     </div>
+
+    <div class="accounts text-center">
+
+      <button class="plus"> + </button>
+      <!-- v-on="click" {} -->
+      Income: {{ incomeCurMonth }}
+      <hr />
+      <button class="minus"> - </button>
+      Expenses: {{ expensesCurMonth }}
+
+    </div>
+
+    <!-- <br /> -->
+    <div class="month-about text-center"> For information about other months, go to the <a href="/statistic"> Statistic </a> </div>
+    <!-- <span> Watch <a href="/statistic"> Statistic </a> for other months </span> -->
+    
+  <!-- </div>  home--> 
 
   </div>
 </template>
@@ -63,8 +51,9 @@ export default {
     return {
       nickname: '',
       idToken: '',
-      income: 0,
-      expenses: 0,
+      incomeCurMonth: 0,
+      expensesCurMonth: 0,
+      curMonth: '',
     };
   },
   components: {
@@ -78,9 +67,9 @@ export default {
       getUserInfo().then((resp) => {
         // maybe here we can use some map() func
         this.nickname = resp.nickname;
-        this.income = resp.accounts.income;
-        this.expenses = resp.accounts.expenses;
-
+        this.totalMoney = resp.accounts.totalMoney;
+        this.incomeCurMonth = resp.accounts.income.curMonth;
+        this.expensesCurMonth = resp.accounts.expenses.curMonth;
         console.log(resp);
       });
     },
@@ -88,10 +77,18 @@ export default {
       this.idToken = getIdToken();
       this.token = getAccessToken();
     },
+    getCurMonthName() {
+      const locale = 'en-us';
+      this.curMonth = (new Date()).toLocaleString(locale, {
+        month: 'long',
+      });
+    },
   },
   mounted() {
     this.getUserInfo();
     this.getIdToken();
+    // this.curMonth = (new Date()).getMonth();
+    this.getCurMonthName();
   },
 };
 </script>
@@ -99,56 +96,88 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-  .circle {
-    /* border-radius: 100%;
-    width: 50%;
-    height: calc(width);
-    background-color: coral; */
-    margin: auto; 
-
+  .accounts {
+    margin-left: calc(50% - 200px); 
     border-radius: 50%;
     width: 400px;
     height: 400px;
-    padding-top: 145px;
+    padding-top: 120px;
     font-size: 25px;
-    background-color: #ef8913;  
-    margin-top: 50px;
-    /* margin-left: calc(50% - 200px); */
-    /* display: inline-block; */
+    border: 5px solid #ef8913;
   }
 
-  .money {
-    position: absolute;
-    width: 240px;
-    height: 240px;
-    left: calc(100% - 350px);
-    top: 250px;
-    background-color: #048eff; 
-    font-size: 20px;
-    /* background-color: #da950d; */
 
-    padding-top: 100px;
-    border-radius: 50%;
-    
+  .monthbox {
+    display: inline-block;
+    font-size: 20px;
+    width: 400px;
+    /* margin-left: 100px; */
+    margin-left: 10%;
+  }
+
+  .moneybox {
+    width: 240px;
+    height: 100px;
+    margin-left: calc(50% - 240px);
+    font-size: 20px;
+    display: inline-block;
+  }
+
+  .roundData {
+    margin-top: 10px;
+    background-color: #ef8913;
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10%;
+    font-size: 30px;
   }
 
   hr {
-    border: 3px solid white;
+    border: 3px solid #ef8913;
   }
 
   button {
-    /* margin-right: 55px !important; */
-    width: 45px;
-    height: 45px;
+    width: 47px;
+    height: 47px;
     border-radius: 50%;
+    color: white;
+    border: 3px solid #ef8913;
   }
 
   .plus {
-    background-color:rgb(58, 236, 4); 
+    background-color:rgb(56, 201, 12); 
   }
 
   .minus {
-    background-color:rgb(216, 50, 21); 
+    background-color:rgb(218, 39, 7); 
   }
+
+  .month-about {
+    font-size: 15px;
+    width: 400px;
+    margin-top: 70px;
+    /* margin-bottom: 50px; */
+    /* padding-bottom: 50px; */
+    margin-left: 10%;
+  }
+
+
+  .home {
+    /* background:  */
+    /* background-image: url('../../static/background.jpg'); */
+    /* background-repeat: no-repeat; */
+    /* background-size: cover; */
+
+    background: url('../../static/background.jpg') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    padding-bottom: 100px; 
+  }
+  
+
 
 </style>
