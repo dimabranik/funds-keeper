@@ -86,7 +86,7 @@ export default {
 .custom-navbar {
   padding-top: 10px;
   padding-bottom: 10px;
-  margin-bottom: 50px;
+  padding-left: 15px;
 }
 
 </style>
