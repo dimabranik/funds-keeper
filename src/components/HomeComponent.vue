@@ -22,17 +22,17 @@
 
     <div class="accounts text-center">
 
-      <button class="plus"> + </button>
-      <!-- v-on="click" {} -->
+      <button class="plus" v-on:click="addIncome"> + </button>
+
       Income: {{ incomeCurMonth }}
       <hr />
-      <button class="minus"> - </button>
+      <button class="minus"  v-on:click="addExpense"> - </button>
       Expenses: {{ expensesCurMonth }}
 
     </div>
 
     <!-- <br /> -->
-    <div class="month-about text-center"> For information about other months, go to the <a href="/statistic"> Statistic </a> </div>
+    <div class="month-about text-center"> For information about other months or to view income and expenses by categories, go to the <a href="/statistic"> Statistic </a> </div>
     <!-- <span> Watch <a href="/statistic"> Statistic </a> for other months </span> -->
     
   <!-- </div>  home--> 
@@ -82,6 +82,12 @@ export default {
       this.curMonth = (new Date()).toLocaleString(locale, {
         month: 'long',
       });
+    },
+    addIncome() {
+      this.$router.push('/income');
+    },
+    addExpense() {
+      this.$router.push('/expense');
     },
   },
   mounted() {
@@ -175,7 +181,7 @@ export default {
     -o-background-size: cover;
     background-size: cover;
 
-    padding-bottom: 100px; 
+    padding-bottom: 50px; 
   }
   
 

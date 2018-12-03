@@ -4,6 +4,8 @@ import StartComponent from '@/components/StartComponent';
 import HomeComponent from '@/components/HomeComponent';
 import StatisticComponent from '@/components/StatisticComponent';
 import AccountComponent from '@/components/AccountComponent';
+import IncomeAddRecordComponent from '@/components/IncomeAddRecordComponent';
+import ExpenseAddRecordComponent from '@/components/ExpenseAddRecordComponent';
 import Callback from '@/components/callback';
 import { requireAuth, requireNotAuth } from '../../utils/auth';
 
@@ -14,25 +16,37 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'StartComponent',
+      name: 'Start',
       beforeEnter: requireNotAuth,
       component: StartComponent,
     },
     {
       path: '/home',
-      name: 'HomeComponent',
+      name: 'Home',
       beforeEnter: requireAuth,
       component: HomeComponent,
     },
     {
       path: '/statistic',
-      name: 'StatisticComponent',
+      name: 'Statistic',
       beforeEnter: requireAuth,
       component: StatisticComponent,
     },
     {
+      path: '/income',
+      name: 'Income',
+      beforeEnter: requireAuth,
+      component: IncomeAddRecordComponent,
+    },
+    {
+      path: '/expense',
+      name: 'Expense',
+      beforeEnter: requireAuth,
+      component: ExpenseAddRecordComponent,
+    },
+    {
       path: '/account',
-      name: 'AccountComponent',
+      name: 'Account',
       beforeEnter: requireAuth,
       component: AccountComponent,
     },

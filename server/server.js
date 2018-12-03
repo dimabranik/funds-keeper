@@ -34,7 +34,15 @@ var user_data = {
     expenses: {
       curMonth: 200,
     },
-  }
+  },
+  keep_accounts: [
+    'cash',
+    'card',
+  ],
+  expense_categories: [
+    'travel',
+    'food',
+  ],
 }
 
 app.get('/api/userinfo', authCheck, (req,res) => {
@@ -48,6 +56,31 @@ app.get('/api/userinfo', authCheck, (req,res) => {
   res.json(user_data);
 
 });
+
+app.get('/api/keep_accounts', authCheck, (req,res) => {
+  
+  // check token, find user (or create), send back user-info 
+  // const authorization = req.get('Authorization');
+
+  console.log("/api/keep_accounts request");
+  // console.log(req)
+
+  res.json(user_data.keep_accounts);
+
+});
+
+app.get('/api/expense_categories', authCheck, (req,res) => {
+  
+  // check token, find user (or create), send back user-info 
+  // const authorization = req.get('Authorization');
+
+  console.log("/api/expense_categories request");
+  // console.log(req)
+
+  res.json(user_data.expense_categories);
+
+});
+
 
 app.post('/api/addIncome', authCheck, (req,res) => {
   
