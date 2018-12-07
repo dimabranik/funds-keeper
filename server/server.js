@@ -24,16 +24,17 @@ const authCheck = jwt({
     algorithms: ['RS256']
 });
 
-var user_data = {
+let user_data = {
   nickname: 'IvanIvanov', 
-  totalMoney: 25000, 
-  totalInputCurMonth: 500,
-  totalExpenseCurMonth: 300,
+  totalMoney: 10000, 
+  totalIncomeCurMonth: 1400,
+  totalExpenseCurMonth: 700,
   accounts: {
     keep: [
       {
         name: 'cash', 
-        balance: [
+        curMoney: 9200,
+        dates: [
           {
             date: '10.18',
             balance: 10500
@@ -50,7 +51,8 @@ var user_data = {
       },
       {
         name: 'card', 
-        balance: [
+        curMoney: 800,
+        dates: [
           {
             date: '10.18',
             balance: 200
@@ -115,63 +117,90 @@ app.get('/api/userinfo', authCheck, (req,res) => {
   // console.log(req)
 
   res.json({
-    username: user_data.nickname,
+    nickname: user_data.nickname,
     totalMoney: user_data.totalMoney,
-    totalInputCurMonth: user_data.totalInputCurMonth,
+    totalIncomeCurMonth: user_data.totalIncomeCurMonth,
     totalExpenseCurMonth: user_data.totalExpenseCurMonth,
   });
 
 });
 
 app.get('/v1/accounts/keep', authCheck, (req,res) => {
-  
-  // check token, find user (or create), send back user-info 
-  // const authorization = req.get('Authorization');
-
-  console.log("/v1/accounts/keep");
+  console.log("/v1/accounts/keep request");
   // console.log(req)
 
   res.json(user_data.accounts.keep);
-
 });
 
 app.get('/v1/accounts/expense', authCheck, (req,res) => {
-  
-  // check token, find user (or create), send back user-info 
-  // const authorization = req.get('Authorization');
-
   console.log("/v1/accounts/expense request");
   // console.log(req)
 
   res.json(user_data.accounts.expense);
-
 });
 
 
-app.post('/v1/income', authCheck, (req,res) => {
-  
-  // check token, find user (or create), send back user-info 
-  // const authorization = req.get('Authorization');
 
+app.post('/v1/income', (req,res) => {
   console.log("/v1/income request");
-  // console.log(req)
+  console.log("req.body.data: " + req.body.data)
 
+  let curMonth = '12.18'
 
-  curMonth = '12.18'
-  
-  user_data.accounts.keep.forEach(element => {
-    if (element.name === req.account_name) {
-      element.dates.forEach(month_element => {
-        if (month_element.date === curMonth) {
-          month_element.balance += req.amount;
+  for (let index in user_data.accounts.keep) {
+    if (user_data.accounts.keep[index].name === req.body.data.account_name) {
+     
+      for (let dates_index in user_data.accounts.keep[index].dates) {
+       
+        if (user_data.accounts.keep[index].dates[dates_index].date === curMonth) {
+         
+          user_data.accounts.keep[index].dates[dates_index].balance += parseInt(req.body.data.amount);
+          user_data.accounts.keep[index].curMoney += parseInt(req.body.data.amount);
+          user_data.totalIncomeCurMonth += parseInt(req.body.data.amount);
+          user_data.totalMoney += parseInt(req.body.data.amount);
           break;
         }
-      });
+      }
       break;
     }
-  });
+  }
+
+  res.json(201);
   
-  user_data.totalInputCurMonth += req.amount;
+});
+
+app.post('/v1/expense', (req,res) => {
+  console.log("/v1/expense request");
+  console.log("req.body.data: " + req.body.data)
+
+  let curMonth = '12.18'
+  
+  for (let expense_account_index in user_data.accounts.expense) {
+    if (user_data.accounts.expense[expense_account_index].name === req.body.data.expense_account_name) {
+      for (let dates_index in user_data.accounts.expense[expense_account_index].dates) {
+        if (user_data.accounts.expense[expense_account_index].dates[dates_index].date === curMonth) {
+          user_data.accounts.expense[expense_account_index].dates[dates_index].balance += parseInt(req.body.data.amount);
+          user_data.totalExpenseCurMonth += parseInt(req.body.data.amount);
+          break;
+        }
+      } 
+      break;
+    }
+  }
+
+  for (let keep_account_index in user_data.accounts.keep) {
+    if (user_data.accounts.keep[keep_account_index].name === req.body.data.keep_account_name) {
+      for (let dates_index in user_data.accounts.keep[keep_account_index].dates) {
+        if (user_data.accounts.keep[keep_account_index].dates[dates_index].date === curMonth) {
+          user_data.accounts.keep[keep_account_index].dates[dates_index].balance -= parseInt(req.body.data.amount);
+          user_data.accounts.keep[keep_account_index].curMoney -= parseInt(req.body.data.amount);
+          user_data.totalMoney -= parseInt(req.body.data.amount);
+          break;
+        }
+      } 
+      break;
+    }
+  }
 
   res.json(201);
   
