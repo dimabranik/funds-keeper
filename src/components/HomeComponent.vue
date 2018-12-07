@@ -2,11 +2,10 @@
   <div class="home">
     <app-nav location="home" />
 
-  <!-- <div class="home"> -->
-      <h2 class="text-center"> {{ nickname }} </h2>
-      <br />
+    <keep-accounts-list-component :keep_accounts="keep_accounts" />
 
-
+    <h2 class="text-center"> {{ nickname }} </h2>
+    <br />
 
     <div class="monthbox text-center">
       Current month:
@@ -16,11 +15,9 @@
     <div class="moneybox text-center">
       Total money:
       <div class="roundData"> {{ totalMoney }} </div>
-
-      <!-- <span v-bind=""  if sum < 0 color red -->
     </div>
 
-    <div class="accounts text-center">
+    <div class="circle text-center">
 
       <button class="plus" v-on:click="addIncome"> + </button>
 
@@ -31,19 +28,18 @@
 
     </div>
 
-    <!-- <br /> -->
+
     <div class="month-about text-center"> For information about other months or to view income and expenses by categories, go to the <a href="/statistic"> Statistic </a> </div>
-    <!-- <span> Watch <a href="/statistic"> Statistic </a> for other months </span> -->
-    
-  <!-- </div>  home--> 
+
 
   </div>
 </template>
 
 <script>
 import AppNav from './AppNav';
+import KeepAccountsListComponent from './KeepAccountsListComponent';
 import { isLoggedIn, getIdToken, getAccessToken } from '../../utils/auth';
-import { getUserInfo } from '../../utils/api';
+import { getUserInfo, getKeepAccounts, getExpenseAccounts } from '../../utils/api';
 
 export default {
   name: 'home-component',
@@ -54,10 +50,13 @@ export default {
       incomeCurMonth: 0,
       expensesCurMonth: 0,
       curMonth: '',
+      keep_accounts: {},
+      expense_accounts: {},
     };
   },
   components: {
     AppNav,
+    KeepAccountsListComponent,
   },
   methods: {
     isLoggedIn() {
@@ -67,9 +66,21 @@ export default {
       getUserInfo().then((resp) => {
         // maybe here we can use some map() func
         this.nickname = resp.nickname;
-        this.totalMoney = resp.accounts.totalMoney;
-        this.incomeCurMonth = resp.accounts.income.curMonth;
-        this.expensesCurMonth = resp.accounts.expenses.curMonth;
+        this.totalMoney = resp.totalMoney;
+        this.incomeCurMonth = resp.totalIncomeCurMonth;
+        this.expensesCurMonth = resp.totalExpenseCurMonth;
+        console.log(resp);
+      });
+    },
+    getKeepAccounts() {
+      getKeepAccounts().then((resp) => {
+        this.keep_accounts = resp;
+        console.log(resp);
+      });
+    },
+    getExpenseAccounts() {
+      getExpenseAccounts().then((resp) => {
+        this.expense_accounts = resp;
         console.log(resp);
       });
     },
@@ -95,6 +106,8 @@ export default {
     this.getIdToken();
     // this.curMonth = (new Date()).getMonth();
     this.getCurMonthName();
+    this.getKeepAccounts();
+    this.getExpenseAccounts();
   },
 };
 </script>
@@ -102,7 +115,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-  .accounts {
+  .circle {
     margin-left: calc(50% - 200px); 
     border-radius: 50%;
     width: 400px;
@@ -162,7 +175,7 @@ export default {
   .month-about {
     font-size: 15px;
     width: 400px;
-    margin-top: 70px;
+    margin-top: 50px;
     /* margin-bottom: 50px; */
     /* padding-bottom: 50px; */
     margin-left: 10%;
@@ -181,9 +194,14 @@ export default {
     -o-background-size: cover;
     background-size: cover;
 
-    padding-bottom: 50px; 
+    padding-bottom: 20px; 
   }
+
   
+
+  div {
+    /* background-color: green;  */
+  }
 
 
 </style>
