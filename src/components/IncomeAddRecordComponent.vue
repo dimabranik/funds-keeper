@@ -1,6 +1,8 @@
 <template>
   <div>
     <app-nav />
+
+    <keep-accounts-list-component :keep_accounts="keep_accounts" top />
     
     <!--  -->
     
@@ -20,15 +22,16 @@
             <br />
         
 
-            <span> Select keep account: </span>
-            <select v-model="selected_category" name="selected_category" >
-                <option v-for="keep_account in keep_accounts" v-bind:key="keep_account.value"> {{ keep_account }} </option>
+            <span> select keep account: </span>
+            <select v-model="selected_keep_account" name="selected_keep_account" >
+                <option v-for="keep_account in keep_accounts" v-bind:key="keep_account.name" > {{ keep_account.name }} </option>
+                <!--  ( {{ keep_account.curMoney }} )  -->
             </select>
             <br />
                 <!-- {{ selected_keep_account }} -->
 
             <br />
-            <input class="input_submit" type="submit" />
+            <input class="input_submit" type="submit" @click="postIncome(selected_keep_account, income)" />
 
 
 
@@ -39,18 +42,21 @@
 
 <script>
 import AppNav from './AppNav';
-import { getKeepAccounts } from '../../utils/api';
+import KeepAccountsListComponent from './KeepAccountsListComponent';
+import { getKeepAccounts, postIncome } from '../../utils/api';
+import { isNormalInteger } from '../../utils/validation';
 
 export default {
   name: 'income-add-record-component',
   components: {
     AppNav,
+    KeepAccountsListComponent,
   },
   data() {
     return {
       income: '',
       selected_keep_account: '',
-      keep_accounts: [],
+      keep_accounts: {},
     };
   },
   methods: {
@@ -59,6 +65,16 @@ export default {
         this.keep_accounts = resp;
         console.log(resp);
       });
+    },
+    postIncome(accountName, amount) {
+      if (isNormalInteger(amount)) {
+        postIncome(accountName, amount).then((resp) => {
+          console.log(resp);
+        });
+        this.$router.push('/home');
+      } else {
+        alert('Invalid input');
+      }
     },
   },
   mounted() {
@@ -74,8 +90,8 @@ export default {
 <style scoped>
 
 .box {
-    margin-left: calc(50% - 300px);
-    width: 600px;
+    margin-left: calc(50% - 250px);
+    width: 500px;
     border: 2px solid #ef8913;
     border-radius: 10%;
     margin-top: 50px;
@@ -85,7 +101,7 @@ export default {
 }
 
 .input_number {
-    /* width: 200px; */
+    width: 200px;
 }
 
 .input_submit {
