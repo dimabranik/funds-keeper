@@ -2,40 +2,57 @@
   <div>
     <app-nav />
     
+    <keep-accounts-list-component :keep_accounts="keep_accounts" top />
+
     <!--  -->
     
     <div class="box text-center"> 
         <h3 class="text-center"> Add expense record </h3>
-        <br />
+                <table>
+          <tr>
+            <td>
+              money amount to spend: 
+            </td>
+            <td>
+              <input v-model="income" type="number" class="input_number" min="1" />
+            </td>
+          </tr>
 
-
-            money amount to spend: 
-            <input v-model="income" type="number" class="input_number" min="1" />
-
-            <br />
+            <!-- <br /> -->
 
             
             <!-- {{ income }} -->
 
-            <br />
+            <!-- <br /> -->
         
-
-            <span> Select keep account: </span>
-            <select v-model="selected_keep_account" name="selected_keep_account" >
-                <option v-for="keep_account in keep_accounts" v-bind:key="keep_account.value"> {{ keep_account }} </option>
-            </select>
-            <br />
+          <tr>
+            <td>
+              <span> select keep account: </span>
+            </td>
+            <td>
+              <select v-model="selected_keep_account" name="selected_keep_account" >
+                <option v-for="keep_account in keep_accounts" v-bind:key="keep_account.name"> {{ keep_account.name }} </option>
+                <!-- ( {{ keep_account.curMoney }}) -->
+              </select>
+            </td>
+          </tr>
+            <!-- <br /> -->
                 <!-- {{ selected_keep_account }} -->
 
-            <span> Select expense category: </span>
-            <select v-model="selected_expense_category" name="selected_expense_category" >
-                <option v-for="expense_category in expense_categories" v-bind:key="expense_category.value"> {{ expense_category }} </option>
-            </select>
-            <br />
-                <!-- {{ selected_expense_category }} -->
+          <tr>
+            <td>
+              <span> select expense category: </span>
+            </td>
+            <td>
+              <select v-model="selected_expense_account" name="selected_expense_account" >
+                <option v-for="expense_account in expense_accounts" v-bind:key="expense_account.name"> {{ expense_account.name }} </option>
+              </select>
+            </td>
+          </tr>
+        </table>
 
-            <br />
-            <input class="input_submit" type="submit" />
+        <br />
+        <input class="input_submit" type="submit" @click="postExpense(selected_keep_account, selected_expense_account, income)" />
 
 
 
@@ -46,21 +63,23 @@
 
 <script>
 import AppNav from './AppNav';
-import { getKeepAccounts, getExpenseCategories } from '../../utils/api';
+import KeepAccountsListComponent from './KeepAccountsListComponent';
+import { getKeepAccounts, getExpenseAccounts, postExpense } from '../../utils/api';
+import { isNormalInteger } from '../../utils/validation';
 
 export default {
   name: 'income-add-record-component',
   components: {
     AppNav,
+    KeepAccountsListComponent,
   },
   data() {
     return {
       income: '',
-      selected_category: '',
-      selected_expense_category: '',
+      selected_expense_account: '',
       selected_keep_account: '',
-      expense_categories: [],
-      keep_accounts: [],
+      expense_accounts: {},
+      keep_accounts: {},
     };
   },
   methods: {
@@ -70,17 +89,41 @@ export default {
         console.log(resp);
       });
     },
-    getExpenseCategories() {
-      getExpenseCategories().then((resp) => {
-        this.expense_categories = resp;
+    getExpenseAccounts() {
+      getExpenseAccounts().then((resp) => {
+        this.expense_accounts = resp;
         console.log(resp);
       });
     },
+    postExpense(keepAccountName, expenseAccountName, amount) {
+      let flag = false;
+      if (isNormalInteger(amount)) {
+        this.getKeepAccounts();
 
+        for (let i = 0; i < this.keep_accounts.length; i += 1) {
+          if (this.keep_accounts[i].name === this.selected_keep_account) {
+            if (this.keep_accounts[i].curMoney >= amount) {
+              postExpense(keepAccountName, expenseAccountName, amount).then((resp) => {
+                console.log(resp);
+              });
+              flag = true;
+            } else {
+              alert('Selected keep account does NOT have such money.');
+            }
+            break;
+          }
+        }
+        if (flag) {
+          this.$router.push('/home');
+        }
+      } else {
+        alert('Invalid input (it should be integer >= 0)');
+      }
+    },
   },
   mounted() {
     this.getKeepAccounts();
-    this.getExpenseCategories();
+    this.getExpenseAccounts();
   },
 };
 </script>
@@ -90,8 +133,8 @@ export default {
 <style scoped>
 
 .box {
-    margin-left: calc(50% - 300px);
-    width: 600px;
+    margin-left: calc(50% - 250px);
+    width: 500px;
     border: 2px solid #ef8913;
     border-radius: 10%;
     margin-top: 50px;
@@ -101,13 +144,18 @@ export default {
 }
 
 .input_number {
-    /* width: 200px; */
+    width: 200px;
 }
 
 .input_submit {
     border: 2px solid #ef8913;
     border-radius: 10%;
     background-color: white;
+}
+
+td {
+  padding-left: 20px; 
+  padding-top: 20px;
 }
 
 select {
