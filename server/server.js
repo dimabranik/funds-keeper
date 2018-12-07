@@ -26,23 +26,84 @@ const authCheck = jwt({
 
 var user_data = {
   nickname: 'IvanIvanov', 
+  totalMoney: 25000, 
+  totalInputCurMonth: 500,
+  totalExpenseCurMonth: 300,
   accounts: {
-    totalMoney: 25000, 
-    income: {
-      curMonth: 1555,
-    }, 
-    expenses: {
-      curMonth: 200,
-    },
+    keep: [
+      {
+        name: 'cash', 
+        balance: [
+          {
+            date: '10.18',
+            balance: 10500
+          },
+          {
+            date: '11.18',
+            balance: 300
+          },
+          {
+            date: '12.18',
+            balance: 900
+          },
+        ]
+      },
+      {
+        name: 'card', 
+        balance: [
+          {
+            date: '10.18',
+            balance: 200
+          },
+          {
+            date: '11.18',
+            balance: 100
+          },
+          {
+            date: '12.18',
+            balance: 500
+          },
+        ]
+      },
+    ],
+
+    expense: [
+      {
+        name: 'travel', 
+        dates: [
+          {
+            date: '10.18',
+            balance: 200
+          },
+          {
+            date: '11.18',
+            balance: 100
+          },
+          {
+            date: '12.18',
+            balance: 500
+          },
+        ]
+      },
+      {
+        name: 'food', 
+        dates: [
+          {
+            date: '10.18',
+            balance: 500
+          },
+          {
+            date: '11.18',
+            balance: 1000
+          },
+          {
+            date: '12.18',
+            balance: 200
+          },
+        ]
+      },
+    ],
   },
-  keep_accounts: [
-    'cash',
-    'card',
-  ],
-  expense_categories: [
-    'travel',
-    'food',
-  ],
 }
 
 app.get('/api/userinfo', authCheck, (req,res) => {
@@ -53,46 +114,66 @@ app.get('/api/userinfo', authCheck, (req,res) => {
   console.log("/api/userinfo request");
   // console.log(req)
 
-  res.json(user_data);
+  res.json({
+    username: user_data.nickname,
+    totalMoney: user_data.totalMoney,
+    totalInputCurMonth: user_data.totalInputCurMonth,
+    totalExpenseCurMonth: user_data.totalExpenseCurMonth,
+  });
 
 });
 
-app.get('/api/keep_accounts', authCheck, (req,res) => {
+app.get('/v1/accounts/keep', authCheck, (req,res) => {
   
   // check token, find user (or create), send back user-info 
   // const authorization = req.get('Authorization');
 
-  console.log("/api/keep_accounts request");
+  console.log("/v1/accounts/keep");
   // console.log(req)
 
-  res.json(user_data.keep_accounts);
+  res.json(user_data.accounts.keep);
 
 });
 
-app.get('/api/expense_categories', authCheck, (req,res) => {
+app.get('/v1/accounts/expense', authCheck, (req,res) => {
   
   // check token, find user (or create), send back user-info 
   // const authorization = req.get('Authorization');
 
-  console.log("/api/expense_categories request");
+  console.log("/v1/accounts/expense request");
   // console.log(req)
 
-  res.json(user_data.expense_categories);
+  res.json(user_data.accounts.expense);
 
 });
 
 
-app.post('/api/addIncome', authCheck, (req,res) => {
+app.post('/v1/income', authCheck, (req,res) => {
   
   // check token, find user (or create), send back user-info 
   // const authorization = req.get('Authorization');
 
-  console.log("/api/addIncome request");
+  console.log("/v1/income request");
   // console.log(req)
 
-  user_data.accounts.income.curMonth += req.incomeToAdd;
 
-  res.json(200);
+  curMonth = '12.18'
+  
+  user_data.accounts.keep.forEach(element => {
+    if (element.name === req.account_name) {
+      element.dates.forEach(month_element => {
+        if (month_element.date === curMonth) {
+          month_element.balance += req.amount;
+          break;
+        }
+      });
+      break;
+    }
+  });
+  
+  user_data.totalInputCurMonth += req.amount;
+
+  res.json(201);
   
 });
 
