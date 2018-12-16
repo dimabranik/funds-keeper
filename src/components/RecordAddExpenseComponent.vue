@@ -2,23 +2,16 @@
   <div>
     <app-nav />
     
-    <keep-accounts-list-component :keep_accounts="keep_accounts" top />
+    <accounts-list-keep-component :keep_accounts="keep_accounts" top />
 
-    <expense-accounts-list-component :expense_accounts="expense_accounts" top />
+    <accounts-list-expense-component :expense_accounts="expense_accounts" top />
 
     <!--  -->
     
     <div class="box text-center"> 
         <h3 class="text-center"> Add expense record </h3>
-                <table>
-          <tr>
-            <td>
-              money amount to spend: 
-            </td>
-            <td>
-              <input v-model="income" type="number" class="input_number" min="1" />
-            </td>
-          </tr>
+        <table>
+          
 
             <!-- <br /> -->
 
@@ -51,10 +44,32 @@
               </select>
             </td>
           </tr>
+
+          <tr>
+            <td>
+              money amount to spend (in keep account currency): 
+            </td>
+            <td>
+              <input v-model="money_amount" type="number" min="1" />
+              <!-- class="input_number" -->
+            </td>
+          </tr>
+
+
+          <tr>
+            <td>
+              <span> description: </span>
+            </td>
+            <td>
+              <input v-model="description" type="text" /> 
+            </td>
+          </tr>
+
+
         </table>
 
         <br />
-        <input class="input_submit" type="submit" @click="postExpense(selected_keep_account, selected_expense_account, income)" />
+        <input class="input_submit" type="submit" @click="postExpense()" />
 
 
 
@@ -65,25 +80,26 @@
 
 <script>
 import AppNav from './AppNav';
-import KeepAccountsListComponent from './KeepAccountsListComponent';
-import ExpenseAccountsListComponent from './ExpenseAccountsListComponent';
+import AccountsListKeepComponent from './AccountsListKeepComponent';
+import AccountsListExpenseComponent from './AccountsListExpenseComponent';
 import { getKeepAccounts, getExpenseAccounts, postExpense } from '../../utils/api';
 import { isNormalInteger } from '../../utils/validation';
 
 export default {
-  name: 'income-add-record-component',
+  name: 'record-add-expense-component',
   components: {
     AppNav,
-    KeepAccountsListComponent,
-    ExpenseAccountsListComponent,
+    AccountsListKeepComponent,
+    AccountsListExpenseComponent,
   },
   data() {
     return {
-      income: '',
+      money_amount: '',
       selected_expense_account: '',
       selected_keep_account: '',
       expense_accounts: {},
       keep_accounts: {},
+      description: '',
     };
   },
   methods: {
@@ -99,29 +115,42 @@ export default {
         console.log(resp);
       });
     },
-    postExpense(keepAccountName, expenseAccountName, amount) {
+    postExpense() {
       let flag = false;
-      if (isNormalInteger(amount)) {
-        this.getKeepAccounts();
+      console.log('this.money_amount:');
+      console.log(this.money_amount);
+      if (isNormalInteger(this.money_amount)) {
+        if (this.selected_keep_account) {
+          if (this.selected_expense_account) {
+            // if selected keep and if selected expense
+            this.getKeepAccounts();
 
-        for (let i = 0; i < this.keep_accounts.length; i += 1) {
-          if (this.keep_accounts[i].name === this.selected_keep_account) {
-            if (this.keep_accounts[i].curMoney >= amount) {
-              postExpense(keepAccountName, expenseAccountName, amount).then((resp) => {
-                console.log(resp);
-              });
-              flag = true;
-            } else {
-              alert('Selected keep account does NOT have such money.');
+            for (let i = 0; i < this.keep_accounts.length; i += 1) {
+              if (this.keep_accounts[i].name === this.selected_keep_account) {
+                if (this.keep_accounts[i].balance >= this.money_amount) {
+                  // TODO: convert mouney_amount to base currency
+                  postExpense(this.selected_keep_account,
+                  this.selected_expense_account, this.money_amount).then((resp) => {
+                    console.log(resp);
+                  });
+                  flag = true;
+                } else {
+                  alert('Selected keep account does NOT have such money.');
+                }
+                break;
+              }
             }
-            break;
+            if (flag) {
+              this.$router.push('/home');
+            }
+          } else {
+            alert('Invalid input (choose expense account)');
           }
-        }
-        if (flag) {
-          this.$router.push('/home');
+        } else {
+          alert('Invalid input (choose keep account)');
         }
       } else {
-        alert('Invalid input (input should be integer >= 0)');
+        alert('Invalid input (money amount should be integer > 0)');
       }
     },
   },
@@ -142,13 +171,17 @@ export default {
     border: 2px solid #ef8913;
     border-radius: 10%;
     margin-top: 50px;
-    font-size: 20px;
+    font-size: 18px;
     /* background-color: red; */
     padding-bottom: 30px;
 }
 
-.input_number {
+/* .input_number {
     width: 200px;
+} */
+
+input {
+  width: 200px;
 }
 
 .input_submit {
@@ -160,6 +193,7 @@ export default {
 td {
   padding-left: 20px; 
   padding-top: 20px;
+  padding-right: 20px;
 }
 
 select {

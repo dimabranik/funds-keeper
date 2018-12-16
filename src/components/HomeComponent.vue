@@ -2,8 +2,8 @@
   <div class="home">
     <app-nav location="home" />
 
-    <keep-accounts-list-component :keep_accounts="keep_accounts" />
-    <expense-accounts-list-component :expense_accounts="expense_accounts" />
+    <accounts-list-keep-component :keep_accounts="keep_accounts" />
+    <accounts-list-expense-component :expense_accounts="expense_accounts" />
 
     <h2 class="text-center"> {{ nickname }} </h2>
     <br />
@@ -15,17 +15,17 @@
 
     <div class="moneybox text-center">
       Total money:
-      <div class="roundData"> {{ totalMoney }} </div>
+      <div class="roundData"> ≈ {{ totalMoney }} USD </div>
     </div>
 
     <div class="circle text-center">
 
       <button class="plus" v-on:click="addIncome"> + </button>
 
-      Income: {{ incomeCurMonth }}
+      Income: {{ incomeCurMonth }} USD
       <hr />
       <button class="minus" v-on:click="addExpense"> - </button>
-      Expenses: {{ expensesCurMonth }}
+      Expenses: {{ expensesCurMonth }} USD
 
     </div>
 
@@ -38,8 +38,8 @@
 
 <script>
 import AppNav from './AppNav';
-import KeepAccountsListComponent from './KeepAccountsListComponent';
-import ExpenseAccountsListComponent from './ExpenseAccountsListComponent';
+import AccountsListKeepComponent from './AccountsListKeepComponent';
+import AccountsListExpenseComponent from './AccountsListExpenseComponent';
 import { isLoggedIn, getIdToken, getAccessToken } from '../../utils/auth';
 import { getUserInfo, getKeepAccounts, getExpenseAccounts } from '../../utils/api';
 
@@ -58,8 +58,8 @@ export default {
   },
   components: {
     AppNav,
-    KeepAccountsListComponent,
-    ExpenseAccountsListComponent,
+    AccountsListKeepComponent,
+    AccountsListExpenseComponent,
   },
   methods: {
     isLoggedIn() {
@@ -140,9 +140,9 @@ export default {
   }
 
   .moneybox {
-    width: 240px;
+    width: 350px;
     height: 100px;
-    margin-left: calc(50% - 240px);
+    margin-left: calc(50% - 300px);
     font-size: 20px;
     display: inline-block;
   }

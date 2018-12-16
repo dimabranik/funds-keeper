@@ -7,7 +7,7 @@
 <script>
 
 export default {
-  name: 'add-expense-account-component',
+  name: 'account-add-expense-component',
 };
 </script>
 

@@ -7,7 +7,7 @@
 <script>
 
 export default {
-  name: 'add-keep-account-component',
+  name: 'account-add-keep-component',
 };
 </script>
 

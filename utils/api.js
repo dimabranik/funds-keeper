@@ -22,15 +22,16 @@ function getExpenseAccounts() {
 
 
 
-function postIncome(account_name, amount) {
+function postIncome(account_name, amount, description) {
   const url = `${BASE_URL}/api/v1/incomes`;
   let form = new FormData();
   form.set('account_name', account_name);
   form.set('amount', amount)
+  form.set('description', description)
 
   // form.append('amount', amount)
 
-  axios({
+  return axios({
     method: 'post',
     url: url,
     data: form,
@@ -60,22 +61,39 @@ function postIncome(account_name, amount) {
 
 
 
-function postExpense(keep_account_name, expense_account_name, amount) {
+function postExpense(keep_account_name, expense_account_name, base_amount, description) {
   const url = `${BASE_URL}/api/v1/expense`;
-  return axios.post(url, 
-    {     
-      headers: { Authorization: `Bearer ${getAccessToken()}`, id_token: `${getIdToken()}`, },
-      form: {
-        keep_account_name: keep_account_name,
-        expense_account_name: expense_account_name,
-        amount: amount,
-      },
+  // return axios.post(url, 
+  //   {     
+  //     headers: { Authorization: `Bearer ${getAccessToken()}`, id_token: `${getIdToken()}`, },
+  //     form: {
+  //       keep_account_name: keep_account_name,
+  //       expense_account_name: expense_account_name,
+  //       amount: amount,
+  //     },
       
+  //   }).then(response => response.data);
+
+  let form = new FormData();
+  form.set('keep_account_name', keep_account_name);
+  form.set('expense_account_name', expense_account_name)
+  form.set('base_amount', base_amount) // Amount in Keep Account currency.	Require: Yes, Type:	double
+  // form.set('quote_amount', quote_amount)
+  form.set('description', description)
+  // form.set('date', date)
+
+
+  return axios({
+    method: 'post',
+    url: url,
+    data: form,
+    headers: { Authorization: `Bearer ${getIdToken()}`, }, 
+    config: { 'Content-Type': 'multipart/form-data', },
     }).then(response => response.data);
 }
 
 
-  // axios({
+  // return axios({
   //   url: `${BASE_URL}/api/postapi`
   //   method: 'post',
   //   data: payload

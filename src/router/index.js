@@ -4,10 +4,10 @@ import StartComponent from '@/components/StartComponent';
 import HomeComponent from '@/components/HomeComponent';
 import StatisticComponent from '@/components/StatisticComponent';
 import AccountComponent from '@/components/AccountComponent';
-import IncomeAddRecordComponent from '@/components/IncomeAddRecordComponent';
-import ExpenseAddRecordComponent from '@/components/ExpenseAddRecordComponent';
-import AddKeepAccountComponent from '@/components/AddKeepAccountComponent';
-import AddExpenseAccountComponent from '@/components/AddExpenseAccountComponent';
+import RecordAddIncomeComponent from '@/components/RecordAddIncomeComponent';
+import RecordAddExpenseComponent from '@/components/RecordAddExpenseComponent';
+import AccountAddKeepComponent from '@/components/AccountAddKeepComponent';
+import AccountAddExpenseComponent from '@/components/AccountAddExpenseComponent';
 import Callback from '@/components/callback';
 import { requireAuth, requireNotAuth } from '../../utils/auth';
 
@@ -38,13 +38,13 @@ export default new Router({
       path: '/income',
       name: 'Income',
       beforeEnter: requireAuth,
-      component: IncomeAddRecordComponent,
+      component: RecordAddIncomeComponent,
     },
     {
       path: '/expense',
       name: 'Expense',
       beforeEnter: requireAuth,
-      component: ExpenseAddRecordComponent,
+      component: RecordAddExpenseComponent,
     },
     {
       path: '/account',
@@ -58,11 +58,11 @@ export default new Router({
     },
     {
       path: '/add_keep_account',
-      component: AddKeepAccountComponent,
+      component: AccountAddKeepComponent,
     },
     {
       path: '/add_expense_account',
-      component: AddExpenseAccountComponent,
+      component: AccountAddExpenseComponent,
     },
     {
       path: '/*',

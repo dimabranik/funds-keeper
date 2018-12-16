@@ -14,7 +14,7 @@
 
 
 export default {
-  name: 'expense-accounts-list-component',
+  name: 'accounts-list-expense-component',
 //   data() {
 //     return {
 //       keep_accounts: {},
