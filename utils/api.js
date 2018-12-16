@@ -34,7 +34,8 @@ function postIncome(account_name, amount) {
     method: 'post',
     url: url,
     data: form,
-    config: { headers: { Authorization: `Bearer ${getIdToken()}`, 'Content-Type': 'multipart/form-data', }}
+    headers: { Authorization: `Bearer ${getIdToken()}`, }, 
+    config: { 'Content-Type': 'multipart/form-data', },
     }).then(response => response.data);
 
     // .then(function (response) {
