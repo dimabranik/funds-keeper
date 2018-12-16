@@ -3,26 +3,26 @@ import { getAccessToken, getIdToken } from './auth';
 
 const BASE_URL = 'http://localhost:3000';
 
-export { getUserInfo, getKeepAccounts, getExpenseAccounts, postIncome, postExpense };
+export { getBalances, getAccountsKeep, getAccountsExpense, postIncomes, postExpenses, postAccountsKeep };
 
-function getUserInfo() {
+function getBalances() {
   const url = `${BASE_URL}/api/v1/balances`;
   return axios.get(url, { headers: { Authorization: `Bearer ${getIdToken()}`, }}).then(response => response.data);
 }
 
-function getKeepAccounts() {
+function getAccountsKeep() {
   const url = `${BASE_URL}/api/v1/accounts/keep`;
   return axios.get(url, { headers: { Authorization: `Bearer ${getIdToken()}`, }}).then(response => response.data);
 }
 
-function getExpenseAccounts() {
+function getAccountsExpense() {
   const url = `${BASE_URL}/api/v1/accounts/expense`;
   return axios.get(url, { headers: { Authorization: `Bearer ${getIdToken()}`, }}).then(response => response.data);
 }
 
 
 
-function postIncome(account_name, amount, description) {
+function postIncomes(account_name, amount, description) {
   const url = `${BASE_URL}/api/v1/incomes`;
   let form = new FormData();
   form.set('account_name', account_name);
@@ -61,8 +61,8 @@ function postIncome(account_name, amount, description) {
 
 
 
-function postExpense(keep_account_name, expense_account_name, base_amount, description) {
-  const url = `${BASE_URL}/api/v1/expense`;
+function postExpenses(keep_account_name, expense_account_name, base_amount, description) {
+  const url = `${BASE_URL}/api/v1/expenses`;
   // return axios.post(url, 
   //   {     
   //     headers: { Authorization: `Bearer ${getAccessToken()}`, id_token: `${getIdToken()}`, },
@@ -93,6 +93,8 @@ function postExpense(keep_account_name, expense_account_name, base_amount, descr
 }
 
 
+
+
   // return axios({
   //   url: `${BASE_URL}/api/postapi`
   //   method: 'post',
@@ -106,3 +108,26 @@ function postExpense(keep_account_name, expense_account_name, base_amount, descr
   //    // your action on error success
   //     console.log(error);
   // });
+
+
+
+function postAccountsKeep(keep_account_name, expense_account_name, base_amount, description) {
+  const url = `${BASE_URL}/api/v1/accounts/keep`;
+  
+  let form = new FormData();
+  form.set('keep_account_name', keep_account_name);
+  form.set('expense_account_name', expense_account_name)
+  form.set('base_amount', base_amount) // Amount in Keep Account currency.	Require: Yes, Type:	double
+  // form.set('quote_amount', quote_amount)
+  form.set('description', description)
+  // form.set('date', date)
+  
+  
+  return axios({
+    method: 'post',
+    url: url,
+    data: form,
+    headers: { Authorization: `Bearer ${getIdToken()}`, }, 
+    config: { 'Content-Type': 'multipart/form-data', },
+  }).then(response => response.data);
+}

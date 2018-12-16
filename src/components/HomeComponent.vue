@@ -41,7 +41,7 @@ import AppNav from './AppNav';
 import AccountsListKeepComponent from './AccountsListKeepComponent';
 import AccountsListExpenseComponent from './AccountsListExpenseComponent';
 import { isLoggedIn, getIdToken, getAccessToken } from '../../utils/auth';
-import { getUserInfo, getKeepAccounts, getExpenseAccounts } from '../../utils/api';
+import { getBalances, getAccountsKeep, getAccountsExpense } from '../../utils/api';
 
 export default {
   name: 'home-component',
@@ -65,8 +65,8 @@ export default {
     isLoggedIn() {
       return isLoggedIn();
     },
-    getUserInfo() {
-      getUserInfo().then((resp) => {
+    getBalances() {
+      getBalances().then((resp) => {
         // console.log('try to get user info.');
         // console.log('here is resp:');
         // console.log(resp);
@@ -76,14 +76,14 @@ export default {
         this.expensesCurMonth = resp.expense.month;
       });
     },
-    getKeepAccounts() {
-      getKeepAccounts().then((resp) => {
+    getAccountsKeep() {
+      getAccountsKeep().then((resp) => {
         this.keep_accounts = resp;
         console.log(resp);
       });
     },
-    getExpenseAccounts() {
-      getExpenseAccounts().then((resp) => {
+    getAccountsExpense() {
+      getAccountsExpense().then((resp) => {
         this.expense_accounts = resp;
         console.log(resp);
       });
@@ -107,12 +107,12 @@ export default {
     },
   },
   mounted() {
-    this.getUserInfo();
+    this.getBalances();
     // this.getIdToken();
     this.curMonth = (new Date()).getMonth();
     this.getCurMonthName();
-    this.getKeepAccounts();
-    this.getExpenseAccounts();
+    this.getAccountsKeep();
+    this.getAccountsExpense();
   },
 };
 </script>

@@ -47,7 +47,7 @@
 
           <tr>
             <td>
-              money amount to spend (in keep account currency): 
+              <span> money amount to spend (in keep account currency): </span>
             </td>
             <td>
               <input v-model="money_amount" type="number" min="1" />
@@ -69,7 +69,7 @@
         </table>
 
         <br />
-        <input class="input_submit" type="submit" @click="postExpense()" />
+        <input class="input_submit" type="submit" @click="postExpenses()" />
 
 
 
@@ -82,8 +82,9 @@
 import AppNav from './AppNav';
 import AccountsListKeepComponent from './AccountsListKeepComponent';
 import AccountsListExpenseComponent from './AccountsListExpenseComponent';
-import { getKeepAccounts, getExpenseAccounts, postExpense } from '../../utils/api';
+import { getAccountsKeep, getAccountsExpense, postExpenses } from '../../utils/api';
 import { isNormalInteger } from '../../utils/validation';
+import { sleep } from '../../utils/sleep';
 
 export default {
   name: 'record-add-expense-component',
@@ -103,19 +104,19 @@ export default {
     };
   },
   methods: {
-    getKeepAccounts() {
-      getKeepAccounts().then((resp) => {
+    getAccountsKeep() {
+      getAccountsKeep().then((resp) => {
         this.keep_accounts = resp;
         console.log(resp);
       });
     },
-    getExpenseAccounts() {
-      getExpenseAccounts().then((resp) => {
+    getAccountsExpense() {
+      getAccountsExpense().then((resp) => {
         this.expense_accounts = resp;
         console.log(resp);
       });
     },
-    postExpense() {
+    postExpenses() {
       let flag = false;
       console.log('this.money_amount:');
       console.log(this.money_amount);
@@ -129,7 +130,7 @@ export default {
               if (this.keep_accounts[i].name === this.selected_keep_account) {
                 if (this.keep_accounts[i].balance >= this.money_amount) {
                   // TODO: convert mouney_amount to base currency
-                  postExpense(this.selected_keep_account,
+                  postExpenses(this.selected_keep_account,
                   this.selected_expense_account, this.money_amount).then((resp) => {
                     console.log(resp);
                   });
@@ -141,7 +142,10 @@ export default {
               }
             }
             if (flag) {
-              this.$router.push('/home');
+              // await sleep(2000);
+              sleep(500).then(() => {
+                this.$router.push('/home');
+              });
             }
           } else {
             alert('Invalid input (choose expense account)');
@@ -155,8 +159,8 @@ export default {
     },
   },
   mounted() {
-    this.getKeepAccounts();
-    this.getExpenseAccounts();
+    this.getAccountsKeep();
+    this.getAccountsExpense();
   },
 };
 </script>

@@ -11,24 +11,40 @@
         <br />
 
 
-            money amount to add: 
-            <input v-model="money_amount" type="number" class="input_number" min="1" /> 
+            
+        <table>
+          <tr>
+            <td>
+              <span> select keep account: </span>
+            </td>
 
-            <br />
+            <td>
+              <select v-model="selected_keep_account" name="selected_keep_account" >
+                  <option v-for="keep_account in keep_accounts" v-bind:key="keep_account.name" > {{ keep_account.name }} </option> 
+                  <!--  ( {{ keep_account.curMoney }} )  -->
+              </select>
+            </td>
+
+          </tr>
+            <!-- <br /> -->
+            <!-- <br /> -->
+          <tr>
+            <td>
+              <span> money amount to add (in keep account currency): </span>
+            </td>
+
+            <td>
+              <input v-model="money_amount" type="number" min="1" /> 
+              <!-- class="input_number" -->
+            </td>
+
+          </tr>
+            <!-- <br /> -->
 
             
             <!-- {{ income }} -->
 
-            <br />
-        
-
-            <span> select keep account: </span>
-            <select v-model="selected_keep_account" name="selected_keep_account" >
-                <option v-for="keep_account in keep_accounts" v-bind:key="keep_account.name" > {{ keep_account.name }} </option> 
-                <!--  ( {{ keep_account.curMoney }} )  -->
-            </select>
-            <br />
-            <br />
+            <!-- <br /> -->
                 <!-- {{ selected_keep_account }} -->
 
             <!-- v-if="this.selected_keep_account" -->
@@ -36,12 +52,23 @@
             <!-- <br /> -->
             <!-- <br /> -->
 
-            description: 
-            <input v-model="description" type="text" /> 
-            <br />
+          <tr>
+            <td>
+              <span> description: </span>
+            </td>
+
+            <td>
+              <input v-model="description" type="text" /> 
+            </td>
+
+          </tr>
+        </table>
+            <!-- <br /> -->
+            <!-- <br /> -->
+
             <br />
 
-            <input class="input_submit" type="submit" @click="postIncome()" />
+            <input class="input_submit" type="submit" @click="postIncomes()" />
 
 
 
@@ -53,8 +80,9 @@
 <script>
 import AppNav from './AppNav';
 import AccountsListKeepComponent from './AccountsListKeepComponent';
-import { getKeepAccounts, postIncome } from '../../utils/api';
+import { getAccountsKeep, postIncomes } from '../../utils/api';
 import { isNormalInteger } from '../../utils/validation';
+import { sleep } from '../../utils/sleep';
 
 export default {
   name: 'record-add-income-component',
@@ -72,8 +100,8 @@ export default {
     };
   },
   methods: {
-    getKeepAccounts() {
-      getKeepAccounts().then((resp) => {
+    getAccountsKeep() {
+      getAccountsKeep().then((resp) => {
         this.keep_accounts = resp;
         console.log(resp);
       });
@@ -105,7 +133,7 @@ export default {
     //   console.log(result);
     //   return result;
     // },
-    postIncome() {
+    postIncomes() {
       if (isNormalInteger(this.money_amount)) {
         if (this.selected_keep_account) {
           // this.base_currency = this.getSelectedKeepAccount().base_currency;
@@ -115,10 +143,12 @@ export default {
           // } else {
           //   console.log('denied');
           // }
-          postIncome(this.selected_keep_account,
+          postIncomes(this.selected_keep_account,
           this.money_amount, this.description).then((resp) => {
             console.log(resp);
-            this.$router.push('/home');
+            sleep(500).then(() => {
+              this.$router.push('/home');
+            });
           });
         } else {
           alert('Invalid input (choose keep account)');
@@ -129,7 +159,7 @@ export default {
     },
   },
   mounted() {
-    this.getKeepAccounts();
+    this.getAccountsKeep();
   },
 };
 </script>
@@ -144,7 +174,7 @@ export default {
     border: 2px solid #ef8913;
     border-radius: 10%;
     margin-top: 50px;
-    font-size: 20px;
+    font-size: 18px;
     /* background-color: red; */
     padding-bottom: 30px;
 }
@@ -161,6 +191,20 @@ export default {
 
 select {
     width: 200px;
+}
+
+input {
+  width: 200px;
+}
+
+span {
+  width: 200px;
+}
+
+td {
+  padding-left: 20px; 
+  padding-top: 20px;
+  padding-right: 20px;
 }
 
 </style>
