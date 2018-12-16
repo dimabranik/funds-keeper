@@ -73,14 +73,12 @@ export default {
         });
         this.$router.push('/home');
       } else {
-        alert('Invalid input');
+        alert('Invalid input (input should be integer >= 0)');
       }
     },
   },
   mounted() {
-    console.log('try to get keep accounts list');
     this.getKeepAccounts();
-    console.log('after getting keep accounts list');
   },
 };
 </script>

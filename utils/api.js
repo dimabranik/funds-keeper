@@ -1,27 +1,27 @@
 import axios from 'axios';
 import { getAccessToken, getIdToken } from './auth';
 
-const BASE_URL = 'http://localhost:3333';
+const BASE_URL = 'http://localhost:3000';
 
 export { getUserInfo, getKeepAccounts, getExpenseAccounts, postIncome, postExpense };
 
 function getUserInfo() {
-  const url = `${BASE_URL}/api/userinfo`;
+  const url = `${BASE_URL}/api/v1/balances`;
   return axios.get(url, { headers: { Authorization: `Bearer ${getAccessToken()}`, id_token: `${getIdToken()}`, }}).then(response => response.data);
 }
 
 function getKeepAccounts() {
-  const url = `${BASE_URL}/v1/accounts/keep`;
+  const url = `${BASE_URL}/api/v1/accounts/keep`;
   return axios.get(url, { headers: { Authorization: `Bearer ${getAccessToken()}`, id_token: `${getIdToken()}`, }}).then(response => response.data);
 }
 
 function getExpenseAccounts() {
-  const url = `${BASE_URL}/v1/accounts/expense`;
+  const url = `${BASE_URL}/api/v1/accounts/expense`;
   return axios.get(url, { headers: { Authorization: `Bearer ${getAccessToken()}`, id_token: `${getIdToken()}`, }}).then(response => response.data);
 }
 
 function postIncome(account_name, amount) {
-  const url = `${BASE_URL}/v1/income`;
+  const url = `${BASE_URL}/api/v1/income`;
   return axios.post(url, 
     {     
       headers: { Authorization: `Bearer ${getAccessToken()}`, id_token: `${getIdToken()}`, },
@@ -34,7 +34,7 @@ function postIncome(account_name, amount) {
 }
 
 function postExpense(keep_account_name, expense_account_name, amount) {
-  const url = `${BASE_URL}/v1/expense`;
+  const url = `${BASE_URL}/api/v1/expense`;
   return axios.post(url, 
     {     
       headers: { Authorization: `Bearer ${getAccessToken()}`, id_token: `${getIdToken()}`, },

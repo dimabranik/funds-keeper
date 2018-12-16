@@ -2,10 +2,12 @@
   <!-- <div>
       <h1> hello from keep list </h1>
   </div> -->
-  <div class="keep_accounts" v-bind:class="{ top: top}">
-      <h1> Keep accounts: </h1>
+  <div class="keep_accounts_box" v-bind:class="{ top: top}">
+      <h2> Keep accounts: </h2>
       <hr />
-      <div v-for="keep_account in keep_accounts" v-bind:key="keep_account.name"> * {{ keep_account.name }} ( {{ keep_account.curMoney }} ) </div>   
+      <div v-for="keep_account in keep_accounts" v-bind:key="keep_account.name" class="keep_account text-center" > {{ keep_account.name }} ( {{ keep_account.curMoney }} ) </div>
+      <button class="keep_account" v-on:click="addKeepAccount" > + </button>
+       <!-- (add new keep account) -->
     </div>
 </template>
 
@@ -23,31 +25,45 @@ export default {
     keep_accounts: Object,
     top: Boolean,
   },
+  methods: {
+    addKeepAccount() {
+      this.$router.push('/add_keep_account');
+    },
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-  .keep_accounts { 
-        /* margin-left: 10%; */
-        /* margin-top: 50px; */
-
-
-    display: inline-block;
+  .keep_accounts_box { 
+    display: block;
     position: absolute;
     left: 5%;
     top: 300px;
     border: 3px solid #ef8913;
     border-radius: 20%;
     padding: 30px;
-    font-size: 18px; 
+    width: 300px;
+  }
+
+  .keep_account {
+    border: 2px solid #ef8913;
+    border-radius: 20%;
+    margin-bottom: 10px;
+    font-size: 15px; 
+    /* width: 240px; */
+    background: 0%;
+
+    margin-left: 10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: inline-block;
   }
 
   .top {
-      /* position: absolute; */
       top: 130px !important;
-      /* background-color: red;  */
   }
 
   hr {

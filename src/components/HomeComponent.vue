@@ -3,6 +3,7 @@
     <app-nav location="home" />
 
     <keep-accounts-list-component :keep_accounts="keep_accounts" />
+    <expense-accounts-list-component :expense_accounts="expense_accounts" />
 
     <h2 class="text-center"> {{ nickname }} </h2>
     <br />
@@ -23,7 +24,7 @@
 
       Income: {{ incomeCurMonth }}
       <hr />
-      <button class="minus"  v-on:click="addExpense"> - </button>
+      <button class="minus" v-on:click="addExpense"> - </button>
       Expenses: {{ expensesCurMonth }}
 
     </div>
@@ -38,6 +39,7 @@
 <script>
 import AppNav from './AppNav';
 import KeepAccountsListComponent from './KeepAccountsListComponent';
+import ExpenseAccountsListComponent from './ExpenseAccountsListComponent';
 import { isLoggedIn, getIdToken, getAccessToken } from '../../utils/auth';
 import { getUserInfo, getKeepAccounts, getExpenseAccounts } from '../../utils/api';
 
@@ -57,6 +59,7 @@ export default {
   components: {
     AppNav,
     KeepAccountsListComponent,
+    ExpenseAccountsListComponent,
   },
   methods: {
     isLoggedIn() {
@@ -64,12 +67,19 @@ export default {
     },
     getUserInfo() {
       getUserInfo().then((resp) => {
-        // maybe here we can use some map() func
-        this.nickname = resp.nickname;
-        this.totalMoney = resp.totalMoney;
-        this.incomeCurMonth = resp.totalIncomeCurMonth;
-        this.expensesCurMonth = resp.totalExpenseCurMonth;
+        console.log('try to get user info.');
+        console.log('here is resp:');
         console.log(resp);
+        // maybe here we can use some map() func
+        // this.nickname = resp.nickname;
+        // this.totalMoney = resp.totalMoney;
+        // this.incomeCurMonth = resp.totalIncomeCurMonth;
+        // this.expensesCurMonth = resp.totalExpenseCurMonth;
+
+        this.totalMoney = resp.balance;
+        this.incomeCurMonth = resp.income.month;
+        this.expensesCurMonth = resp.expense.month;
+        // console.log(resp);
       });
     },
     getKeepAccounts() {
@@ -87,6 +97,7 @@ export default {
     getIdToken() {
       this.idToken = getIdToken();
       this.token = getAccessToken();
+      console.log(this.idToken);
     },
     getCurMonthName() {
       const locale = 'en-us';
@@ -103,11 +114,11 @@ export default {
   },
   mounted() {
     this.getUserInfo();
-    this.getIdToken();
-    // this.curMonth = (new Date()).getMonth();
+    // this.getIdToken();
+    this.curMonth = (new Date()).getMonth();
     this.getCurMonthName();
-    this.getKeepAccounts();
-    this.getExpenseAccounts();
+    // this.getKeepAccounts();
+    // this.getExpenseAccounts();
   },
 };
 </script>

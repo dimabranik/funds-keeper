@@ -6,6 +6,8 @@ import StatisticComponent from '@/components/StatisticComponent';
 import AccountComponent from '@/components/AccountComponent';
 import IncomeAddRecordComponent from '@/components/IncomeAddRecordComponent';
 import ExpenseAddRecordComponent from '@/components/ExpenseAddRecordComponent';
+import AddKeepAccountComponent from '@/components/AddKeepAccountComponent';
+import AddExpenseAccountComponent from '@/components/AddExpenseAccountComponent';
 import Callback from '@/components/callback';
 import { requireAuth, requireNotAuth } from '../../utils/auth';
 
@@ -53,6 +55,14 @@ export default new Router({
     {
       path: '/callback',
       component: Callback,
+    },
+    {
+      path: '/add_keep_account',
+      component: AddKeepAccountComponent,
+    },
+    {
+      path: '/add_expense_account',
+      component: AddExpenseAccountComponent,
     },
     {
       path: '/*',

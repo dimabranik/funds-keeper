@@ -4,6 +4,8 @@
     
     <keep-accounts-list-component :keep_accounts="keep_accounts" top />
 
+    <expense-accounts-list-component :expense_accounts="expense_accounts" top />
+
     <!--  -->
     
     <div class="box text-center"> 
@@ -64,6 +66,7 @@
 <script>
 import AppNav from './AppNav';
 import KeepAccountsListComponent from './KeepAccountsListComponent';
+import ExpenseAccountsListComponent from './ExpenseAccountsListComponent';
 import { getKeepAccounts, getExpenseAccounts, postExpense } from '../../utils/api';
 import { isNormalInteger } from '../../utils/validation';
 
@@ -72,6 +75,7 @@ export default {
   components: {
     AppNav,
     KeepAccountsListComponent,
+    ExpenseAccountsListComponent,
   },
   data() {
     return {
@@ -117,7 +121,7 @@ export default {
           this.$router.push('/home');
         }
       } else {
-        alert('Invalid input (it should be integer >= 0)');
+        alert('Invalid input (input should be integer >= 0)');
       }
     },
   },

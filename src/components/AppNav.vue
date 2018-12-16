@@ -15,7 +15,7 @@
       </li>
     </ul>
 
-    <div class="text-center title text-gold" > FundsKeeper </div>
+    <div class="text-center title text-gold" > <a href="/home" class="text-center title text-gold"> FundsKeeper </a> </div>
   </nav>
 </template>
 
@@ -71,6 +71,11 @@ export default {
   /* background-color: red;   */
   /* margin: auto; */
   /* width: 50%; */
+}
+
+a:hover { 
+    /* background-color: yellow; */
+    text-decoration: none;
 }
 
 .active {
