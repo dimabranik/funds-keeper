@@ -67,19 +67,13 @@ export default {
     },
     getUserInfo() {
       getUserInfo().then((resp) => {
-        console.log('try to get user info.');
-        console.log('here is resp:');
-        console.log(resp);
-        // maybe here we can use some map() func
-        // this.nickname = resp.nickname;
-        // this.totalMoney = resp.totalMoney;
-        // this.incomeCurMonth = resp.totalIncomeCurMonth;
-        // this.expensesCurMonth = resp.totalExpenseCurMonth;
-
+        // console.log('try to get user info.');
+        // console.log('here is resp:');
+        // console.log(resp);
+        this.nickname = resp.nickname;
         this.totalMoney = resp.balance;
         this.incomeCurMonth = resp.income.month;
         this.expensesCurMonth = resp.expense.month;
-        // console.log(resp);
       });
     },
     getKeepAccounts() {
@@ -117,8 +111,8 @@ export default {
     // this.getIdToken();
     this.curMonth = (new Date()).getMonth();
     this.getCurMonthName();
-    // this.getKeepAccounts();
-    // this.getExpenseAccounts();
+    this.getKeepAccounts();
+    this.getExpenseAccounts();
   },
 };
 </script>

@@ -5,7 +5,7 @@
   <div class="keep_accounts_box" v-bind:class="{ top: top}">
       <h2> Keep accounts: </h2>
       <hr />
-      <div v-for="keep_account in keep_accounts" v-bind:key="keep_account.name" class="keep_account text-center" > {{ keep_account.name }} ( {{ keep_account.curMoney }} ) </div>
+      <div v-for="keep_account in keep_accounts" v-bind:key="keep_account.name" class="keep_account text-center" > {{ keep_account.name }} ( {{ keep_account.balance}} {{ keep_account.base_currency }} ) </div>
       <button class="keep_account" v-on:click="addKeepAccount" > + </button>
        <!-- (add new keep account) -->
     </div>

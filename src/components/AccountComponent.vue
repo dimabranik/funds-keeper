@@ -3,14 +3,14 @@
     <app-nav location="account" />
 
     <h2> Account </h2>
-    userid = {{ userid }}
+    <!-- userid = {{ userid }} -->
   </div>
 </template>
 
 <script>
 import AppNav from './AppNav';
 import { isLoggedIn } from '../../utils/auth';
-import { getUserId } from '../../utils/api';
+// import { getUserId } from '../../utils/api';
 
 export default {
   name: 'account-component',
@@ -26,16 +26,16 @@ export default {
     isLoggedIn() {
       return isLoggedIn();
     },
-    getUserId() {
-      getUserId().then((resp) => {
-        this.userid = resp.userid;
-        console.log('Response from server on /api/userid :');
-        console.log(resp);
-      });
-    },
+    // getUserId() {
+    //   getUserId().then((resp) => {
+    //     this.userid = resp.userid;
+    //     console.log('Response from server on /api/userid :');
+    //     console.log(resp);
+    //   });
+    // },
   },
   mounted() {
-    this.getUserId();
+    // this.getUserId();
   },
 };
 </script>
