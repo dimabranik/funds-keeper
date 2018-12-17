@@ -81,7 +81,7 @@
 import AppNav from './AppNav';
 import AccountsListKeepComponent from './AccountsListKeepComponent';
 import { getAccountsKeep, postIncomes } from '../../utils/api';
-import { isNormalInteger } from '../../utils/validation';
+import { isPositiveInteger } from '../../utils/validation';
 import { sleep } from '../../utils/sleep';
 
 export default {
@@ -134,7 +134,7 @@ export default {
     //   return result;
     // },
     postIncomes() {
-      if (isNormalInteger(this.money_amount)) {
+      if (isPositiveInteger(this.money_amount)) {
         if (this.selected_keep_account) {
           // this.base_currency = this.getSelectedKeepAccount().base_currency;
           // const string = 'Add income record into \'' + this.selected_keep_account +
@@ -154,7 +154,7 @@ export default {
           alert('Invalid input (choose keep account)');
         }
       } else {
-        alert('Invalid input (money amount should be integer > 0)');
+        alert('Invalid input (money amount should be integer > 0, without \'+\' at the start)');
       }
     },
   },

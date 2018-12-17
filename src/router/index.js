@@ -58,10 +58,12 @@ export default new Router({
     },
     {
       path: '/add_keep_account',
+      beforeEnter: requireAuth,
       component: AccountAddKeepComponent,
     },
     {
       path: '/add_expense_account',
+      beforeEnter: requireAuth,
       component: AccountAddExpenseComponent,
     },
     {

@@ -111,7 +111,7 @@ function postExpenses(keep_account_name, expense_account_name, base_amount, desc
 
 
 
-function postAccountsKeep(keep_account_name, expense_account_name, base_amount, description) {
+function postAccountsKeep(keep_account_name, base_currency, initial_balance) {
   const url = `${BASE_URL}/api/v1/accounts/keep`;
   
   let form = new FormData();

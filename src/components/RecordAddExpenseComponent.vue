@@ -83,7 +83,7 @@ import AppNav from './AppNav';
 import AccountsListKeepComponent from './AccountsListKeepComponent';
 import AccountsListExpenseComponent from './AccountsListExpenseComponent';
 import { getAccountsKeep, getAccountsExpense, postExpenses } from '../../utils/api';
-import { isNormalInteger } from '../../utils/validation';
+import { isPositiveInteger } from '../../utils/validation';
 import { sleep } from '../../utils/sleep';
 
 export default {
@@ -120,7 +120,7 @@ export default {
       let flag = false;
       console.log('this.money_amount:');
       console.log(this.money_amount);
-      if (isNormalInteger(this.money_amount)) {
+      if (isPositiveInteger(this.money_amount)) {
         if (this.selected_keep_account) {
           if (this.selected_expense_account) {
             // if selected keep and if selected expense
@@ -154,7 +154,7 @@ export default {
           alert('Invalid input (choose keep account)');
         }
       } else {
-        alert('Invalid input (money amount should be integer > 0)');
+        alert('Invalid input (money amount should be integer > 0, without \'+\' at the start)');
       }
     },
   },
