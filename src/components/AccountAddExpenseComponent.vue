@@ -35,8 +35,6 @@
 
           </tr>
 
-            <!-- <br /> -->
-            <!-- <br /> -->
           <tr>
             <td>
               <span> month expenses limit (optional): </span>
@@ -44,8 +42,6 @@
 
             <td>
               <input v-model="month_expenses_limit"  /> 
-              <!-- type="number" min="0" couses problems, becouse return 0 if some left input and 
-                                                i can't catch that situation to alert user --> 
             </td>
 
           </tr>
@@ -53,9 +49,6 @@
             <br />
 
             <input class="input_submit" type="submit" @click="postAccountsExpense()" />
-
-
-
     
     </div>
 
@@ -146,17 +139,6 @@ export default {
                 this.$router.push('/home');
               });
             });
-
-            // console.log('everything is OK.');
-            // console.log(this.new_name);
-            // console.log(this.selected_base_currency);
-            // console.log(this.month_expenses_limit);
-
-            // console.log('\n\n');
-
-            // sleep(500).then(() => {
-            //   this.$router.push('/home');
-            // });
           } else {
             alert('Invalid input (choose base currency)');
           }
@@ -184,7 +166,6 @@ export default {
     border-radius: 10%;
     margin-top: 50px;
     font-size: 18px;
-    /* background-color: red; */
     padding-bottom: 30px;
 }
 

@@ -5,21 +5,11 @@
     <accounts-list-keep-component :keep_accounts="keep_accounts" top />
 
     <accounts-list-expense-component :expense_accounts="expense_accounts" top />
-
-    <!--  -->
     
     <div class="box text-center"> 
         <h3 class="text-center"> Add expense record </h3>
         <table>
           
-
-            <!-- <br /> -->
-
-            
-            <!-- {{ income }} -->
-
-            <!-- <br /> -->
-        
           <tr>
             <td>
               <span> select keep account: </span>
@@ -27,12 +17,9 @@
             <td>
               <select v-model="selected_keep_account" name="selected_keep_account" >
                 <option v-for="keep_account in keep_accounts" v-bind:key="keep_account.name"> {{ keep_account.name }} </option>
-                <!-- ( {{ keep_account.curMoney }}) -->
               </select>
             </td>
           </tr>
-            <!-- <br /> -->
-                <!-- {{ selected_keep_account }} -->
 
           <tr>
             <td>
@@ -51,7 +38,6 @@
             </td>
             <td>
               <input v-model="money_amount" type="number" min="1" />
-              <!-- class="input_number" -->
             </td>
           </tr>
 
@@ -177,13 +163,8 @@ export default {
     border-radius: 10%;
     margin-top: 50px;
     font-size: 18px;
-    /* background-color: red; */
     padding-bottom: 30px;
 }
-
-/* .input_number {
-    width: 200px;
-} */
 
 input {
   width: 200px;

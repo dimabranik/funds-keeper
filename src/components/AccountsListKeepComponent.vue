@@ -1,13 +1,9 @@
 <template>
-  <!-- <div>
-      <h1> hello from keep list </h1>
-  </div> -->
   <div class="keep_accounts_box" v-bind:class="{ top: top}">
       <h2> Keep accounts: </h2>
       <hr />
       <div v-for="keep_account in keep_accounts" v-bind:key="keep_account.name" class="keep_account text-center" > {{ keep_account.name }} ( {{ keep_account.balance}} {{ keep_account.base_currency.toUpperCase() }} ) </div>
       <button class="keep_account" v-on:click="addKeepAccount" > + </button>
-       <!-- (add new keep account) -->
     </div>
 </template>
 
@@ -16,11 +12,6 @@
 
 export default {
   name: 'accounts-list-keep-component',
-//   data() {
-//     return {
-//       keep_accounts: {},
-//     };
-//   },
   props: {
     keep_accounts: Object,
     top: Boolean,
@@ -52,7 +43,6 @@ export default {
     border-radius: 20%;
     margin-bottom: 10px;
     font-size: 15px; 
-    /* width: 240px; */
     background: 0%;
 
     margin-left: 10px;

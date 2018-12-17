@@ -67,9 +67,6 @@ export default {
     },
     getBalances() {
       getBalances().then((resp) => {
-        // console.log('try to get user info.');
-        // console.log('here is resp:');
-        // console.log(resp);
         this.nickname = resp.nickname;
         this.totalMoney = resp.balance;
         this.incomeCurMonth = resp.income.month;
@@ -108,7 +105,6 @@ export default {
   },
   mounted() {
     this.getBalances();
-    // this.getIdToken();
     this.curMonth = (new Date()).getMonth();
     this.getCurMonthName();
     this.getAccountsKeep();
@@ -135,7 +131,6 @@ export default {
     display: inline-block;
     font-size: 20px;
     width: 400px;
-    /* margin-left: 100px; */
     margin-left: 10%;
   }
 
@@ -181,32 +176,17 @@ export default {
     font-size: 15px;
     width: 400px;
     margin-top: 50px;
-    /* margin-bottom: 50px; */
-    /* padding-bottom: 50px; */
     margin-left: 10%;
   }
 
 
   .home {
-    /* background:  */
-    /* background-image: url('../../static/background.jpg'); */
-    /* background-repeat: no-repeat; */
-    /* background-size: cover; */
-
     background: url('../../static/background.jpg') no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-
     padding-bottom: 20px; 
   }
-
-  
-
-  div {
-    /* background-color: green;  */
-  }
-
 
 </style>

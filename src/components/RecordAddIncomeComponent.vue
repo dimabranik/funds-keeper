@@ -4,14 +4,10 @@
 
     <accounts-list-keep-component :keep_accounts="keep_accounts" top />
     
-    <!--  -->
-    
     <div class="box text-center"> 
         <h3 class="text-center"> Add income record </h3>
         <br />
 
-
-            
         <table>
           <tr>
             <td>
@@ -21,13 +17,10 @@
             <td>
               <select v-model="selected_keep_account" name="selected_keep_account" >
                   <option v-for="keep_account in keep_accounts" v-bind:key="keep_account.name" > {{ keep_account.name }} </option> 
-                  <!--  ( {{ keep_account.curMoney }} )  -->
               </select>
             </td>
 
           </tr>
-            <!-- <br /> -->
-            <!-- <br /> -->
           <tr>
             <td>
               <span> money amount to add (in keep account currency): </span>
@@ -35,22 +28,9 @@
 
             <td>
               <input v-model="money_amount" type="number" min="1" /> 
-              <!-- class="input_number" -->
             </td>
 
           </tr>
-            <!-- <br /> -->
-
-            
-            <!-- {{ income }} -->
-
-            <!-- <br /> -->
-                <!-- {{ selected_keep_account }} -->
-
-            <!-- v-if="this.selected_keep_account" -->
-            <!-- <span > keep account currency: <b style="text-transform: uppercase;"> {{  }} </b> </span> -->
-            <!-- <br /> -->
-            <!-- <br /> -->
 
           <tr>
             <td>
@@ -63,15 +43,10 @@
 
           </tr>
         </table>
-            <!-- <br /> -->
-            <!-- <br /> -->
 
             <br />
 
             <input class="input_submit" type="submit" @click="postIncomes()" />
-
-
-
     
     </div>
   </div>
@@ -106,43 +81,9 @@ export default {
         console.log(resp);
       });
     },
-    // getSelectedKeepAccount() {
-    //   // for (var i in keep_accounts) {
-    //   //   if (keep_accounts[i].name === keepAccountName) {
-    //   //     return keep_accounts[i];
-    //   //   }
-    //   // }
-    //   // let result = {};
-    //   let result = {};
-    //   console.log('in keep account by name');
-    //   if (this.selected_keep_account) {
-    //     console.log('in keep account by name IF');
-    //     let i;
-    //     // let result = {};
-    //     // const keepAccounts = Object.entries(this.keep_accounts)
-    //     for (i = 0; i < this.keep_accounts.length; i += 0) {
-    //       if (this.keep_accounts[i].name === this.selected_keep_account) {
-    //         result = this.keep_accounts[i];
-    //         break;
-    //       }
-    //     }
-    //     // return result;
-    //   }
-    //   // return '';
-    //   console.log('chosen account: ');
-    //   console.log(result);
-    //   return result;
-    // },
     postIncomes() {
       if (isPositiveInteger(this.money_amount)) {
         if (this.selected_keep_account) {
-          // this.base_currency = this.getSelectedKeepAccount().base_currency;
-          // const string = 'Add income record into \'' + this.selected_keep_account +
-          //  '\' keep account (currency: ' + this.base_currency + ')';
-          // if (confirm(string)) {
-          // } else {
-          //   console.log('denied');
-          // }
           postIncomes(this.selected_keep_account,
           this.money_amount, this.description).then((resp) => {
             console.log(resp);

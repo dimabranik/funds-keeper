@@ -51,30 +51,12 @@ export default {
 }
 
 .title {
-  /* working */
-  /* position: absolute; */
-  /* margin-left: calc(50% - 85px);  */
-  /* font-size: 30px;  */
-  /* end */
-
-  /* working 2 */
   margin: auto;
   font-size: 30px;
   width: 200px;
-  /* end */
-
-  /* background-color: red; */
-  /* display: inline-block; */
-  /* width: 100% !important; */
-  /* display: inline; */
-  /* width: 40%;  */
-  /* background-color: red;   */
-  /* margin: auto; */
-  /* width: 50%; */
 }
 
 a:hover { 
-    /* background-color: yellow; */
     text-decoration: none;
 }
 
@@ -84,7 +66,6 @@ a:hover {
 }
 
 .text-gold {
-  /* color: #da950d; */
   color: #ef8913;
 }
 

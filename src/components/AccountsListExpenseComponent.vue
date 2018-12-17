@@ -1,7 +1,4 @@
 <template>
-  <!-- <div>
-      <h1> hello from keep list </h1>
-  </div> -->
   <div class="expense_accounts_box" v-bind:class="{ top: top}">
       <h2> Expense categories: </h2>
       <hr />
@@ -15,11 +12,6 @@
 
 export default {
   name: 'accounts-list-expense-component',
-//   data() {
-//     return {
-//       keep_accounts: {},
-//     };
-//   },
   props: {
     expense_accounts: Object,
     top: Boolean,
@@ -48,27 +40,21 @@ export default {
 
   .expense_account { 
     display: inline-block;
-    /* border: 2px solid #ef8913; */
-    /* border-radius: 20%; */
     margin-left: 10px;
     margin-bottom: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    /* font-size: 18px;   */
     
 
     border: 2px solid #ef8913;
     border-radius: 20%;
     margin-bottom: 10px;
     font-size: 15px; 
-    /* width: 240px; */
     background: 0%;
   }
 
   .top {
-      /* position: absolute; */
       top: 130px !important;
-      /* background-color: red;  */
   }
 
   hr {
