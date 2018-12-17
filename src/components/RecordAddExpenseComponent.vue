@@ -95,7 +95,7 @@ export default {
   },
   data() {
     return {
-      money_amount: '',
+      money_amount: '', // in keep account base currency
       selected_expense_account: '',
       selected_keep_account: '',
       expense_accounts: {},
@@ -124,12 +124,11 @@ export default {
         if (this.selected_keep_account) {
           if (this.selected_expense_account) {
             // if selected keep and if selected expense
-            this.getKeepAccounts();
+            this.getAccountsKeep();
 
             for (let i = 0; i < this.keep_accounts.length; i += 1) {
               if (this.keep_accounts[i].name === this.selected_keep_account) {
                 if (this.keep_accounts[i].balance >= this.money_amount) {
-                  // TODO: convert mouney_amount to base currency
                   postExpenses(this.selected_keep_account,
                   this.selected_expense_account, this.money_amount).then((resp) => {
                     console.log(resp);

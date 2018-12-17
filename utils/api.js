@@ -115,14 +115,10 @@ function postAccountsKeep(keep_account_name, base_currency, initial_balance) {
   const url = `${BASE_URL}/api/v1/accounts/keep`;
   
   let form = new FormData();
-  form.set('keep_account_name', keep_account_name);
-  form.set('expense_account_name', expense_account_name)
-  form.set('base_amount', base_amount) // Amount in Keep Account currency.	Require: Yes, Type:	double
-  // form.set('quote_amount', quote_amount)
-  form.set('description', description)
-  // form.set('date', date)
-  
-  
+  form.set('name', keep_account_name);
+  form.set('base_currency', base_currency)
+  form.set('initial_balance', initial_balance)
+
   return axios({
     method: 'post',
     url: url,

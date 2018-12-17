@@ -2,6 +2,8 @@
   <div>
     <app-nav />
 
+    <accounts-list-keep-component :keep_accounts="keep_accounts" top />
+
     <div class="box text-center"> 
         <h3 class="text-center"> Add new keep account </h3>
         <br />
@@ -11,7 +13,7 @@
         <table>
           <tr>
             <td>
-              <span> name: </span>
+              <span> title: </span>
             </td>
 
             <td>
@@ -37,11 +39,13 @@
             <!-- <br /> -->
           <tr>
             <td>
-              <span> initial balance: </span>
+              <span> initial balance (optional): </span>
             </td>
 
             <td>
-              <input v-model="initial_balance" type="number" min="1" /> 
+              <input v-model="initial_balance"  /> 
+              <!-- type="number" min="0" couses problems, becouse return 0 if some left input and 
+                                                i can't catch that situation to alert user --> 
             </td>
 
           </tr>
@@ -60,14 +64,17 @@
 
 <script>
 import AppNav from './AppNav';
-// import { postAccountsKeep } from '../../utils/api';
+import AccountsListKeepComponent from './AccountsListKeepComponent';
+import { getAccountsKeep, postAccountsKeep } from '../../utils/api';
 import { isNormalInteger } from '../../utils/validation';
+import { sleep } from '../../utils/sleep';
 
 
 export default {
   name: 'account-add-keep-component',
   components: {
     AppNav,
+    AccountsListKeepComponent,
   },
   data() {
     return {
@@ -113,25 +120,60 @@ export default {
     };
   },
   methods: {
+    getAccountsKeep() {
+      getAccountsKeep().then((resp) => {
+        this.keep_accounts = resp;
+        console.log(resp);
+      });
+    },
     isNewNameUnique() {
-
+      this.getAccountsKeep();
+      for (let i = 0; i < this.keep_accounts.length; i += 1) {
+        if (this.keep_accounts[i].name === this.new_name) {
+          return false;
+        }
+      }
+      return true;
     },
     postAccountsKeep() {
-      // TODO: validation by name (get all keep accounts and
-      // check if there is no with the same name)
-      // TODO: check if initial balance there. also could be = 0
+      if (this.new_name && this.isNewNameUnique()) {
+        if (this.initial_balance === '') {
+          this.initial_balance = '0';
+        }
 
+        if (isNormalInteger(this.initial_balance)) {
+          if (this.selected_base_currency) {
+            postAccountsKeep(this.new_name,
+            this.selected_base_currency, this.initial_balance).then((resp) => {
+              console.log(resp);
+              sleep(500).then(() => {
+                this.$router.push('/home');
+              });
+            });
 
-      console.log(this.new_name);
-      console.log(this.selected_base_currency);
-      console.log(this.initial_balance);
-      console.log(isNormalInteger(this.initial_balance));
+            // console.log('everything is OK.');
+            // console.log(this.new_name);
+            // console.log(this.selected_base_currency);
+            // console.log(this.initial_balance);
 
-      // postAccountsKeep().then((resp) => {
-      //   this.keep_accounts = resp;
-      //   console.log(resp);
-      // });
+            // console.log('\n\n');
+
+            // sleep(500).then(() => {
+            //   this.$router.push('/home');
+            // });
+          } else {
+            alert('Invalid input (choose base currency)');
+          }
+        } else {
+          alert('Invalid input (initial balance should be integer >= 0, without \'+\' at the start)');
+        }
+      } else {
+        alert('Invalid input (enter a unique title)');
+      }
     },
+  },
+  mounted() {
+    this.getAccountsKeep();
   },
 };
 </script>
