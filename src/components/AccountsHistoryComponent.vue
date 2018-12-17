@@ -24,7 +24,7 @@
 
 <script>
 import AppNav from './AppNav';
-import { getAccountsKeep, getAccountsExpense } from '../../utils/api';
+import { getAccountsKeep, getAccountsExpense, getIncomes, getExpenses } from '../../utils/api';
 
 
 export default {
@@ -38,6 +38,7 @@ export default {
       expense_accounts: {},
       selected_account_type: '',
       selected_account_name: '',
+      history: {},
     };
   },
   methods: {
@@ -53,19 +54,39 @@ export default {
         console.log(resp);
       });
     },
+    getIncomes() {
+      getIncomes().then((resp) => {
+        this.history = resp;
+        console.log(resp);
+        // this.showHistory();
+      });
+    },
+    getExpenses() {
+      getExpenses().then((resp) => {
+        this.history = resp;
+        console.log(resp);
+        // this.showHistory();
+      });
+    },
     selectKeepAccount(keepAccountName) {
-      this.selected_account_type = 'keep';
-      this.selected_account_name = keepAccountName;
-      this.showHistory();
+      // this.selected_account_type = 'keep';
+      // this.selected_account_name = keepAccountName;
+      // console.log(this.selected_account_type);
+      // console.log(this.selected_account_name);
+      console.log(keepAccountName);
+      this.getIncomes(keepAccountName);
     },
     selectExpenseAccount(expenseAccountName) {
-      this.selected_account_type = 'expense';
-      this.selected_account_name = expenseAccountName;
-      this.showHistory();
+      // this.selected_account_type = 'expense';
+      // this.selected_account_name = expenseAccountName;
+      // console.log(this.selected_account_type);
+      // console.log(this.selected_account_name);
+      console.log(expenseAccountName);
+      this.getExpenses('', expenseAccountName);
     },
     showHistory() {
-      console.log(this.selected_account_type);
-      console.log(this.selected_account_name);
+      // or just connect div to model history
+      // print or highlights selected account
     },
   },
   mounted() {

@@ -3,7 +3,7 @@ import { getAccessToken, getIdToken } from './auth';
 
 const BASE_URL = 'http://localhost:3000';
 
-export { getBalances, getAccountsKeep, getAccountsExpense, postIncomes, postExpenses, postAccountsKeep, postAccountsExpense };
+export { getBalances, getAccountsKeep, getAccountsExpense, postIncomes, postExpenses, postAccountsKeep, postAccountsExpense, getIncomes, getExpenses };
 
 function getBalances() {
   const url = `${BASE_URL}/api/v1/balances`;
@@ -143,4 +143,25 @@ function postAccountsExpense(expense_account_name, base_currency, month_expenses
     headers: { Authorization: `Bearer ${getIdToken()}`, }, 
     config: { 'Content-Type': 'multipart/form-data', },
   }).then(response => response.data);
+}
+
+
+function getIncomes(account_name) {
+  const url = `${BASE_URL}/api/v1/incomes`;
+  if (account_name == '') {
+    return axios.get(url, { headers: { Authorization: `Bearer ${getIdToken()}`, }}).then(response => response.data);
+  } else {
+    return axios.get(url, { headers: { Authorization: `Bearer ${getIdToken()}`, }, params: {account_name: account_name}}).then(response => response.data);
+  }
+}
+
+function getExpenses(keep_account_name, expense_account_name) {
+  const url = `${BASE_URL}/api/v1/incomes`;
+  if (keep_account_name != '' && expense_account_name != '') {
+    return axios.get(url, { headers: { Authorization: `Bearer ${getIdToken()}`, }, params: {keep_account_name: keep_account_name, expense_account_name: expense_account_name}}).then(response => response.data);
+  } else if (expense_account_name != '') {
+    return axios.get(url, { headers: { Authorization: `Bearer ${getIdToken()}`, }, params: {expense_account_name: expense_account_name}}).then(response => response.data);
+  } else {
+    return axios.get(url, { headers: { Authorization: `Bearer ${getIdToken()}`, }}).then(response => response.data);
+  }
 }
