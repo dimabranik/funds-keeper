@@ -1,8 +1,8 @@
 <template>
   <div> 
-      <app-nav location="statistic" />
+      <app-nav location="history" />
 
-      <h4> Stats </h4> 
+      <h4> History </h4> 
     </div>
 </template>
 
@@ -10,7 +10,7 @@
 import AppNav from './AppNav';
 
 export default {
-  name: 'statistic-component',
+  name: 'accounts-history-component',
   components: {
     AppNav,
   },

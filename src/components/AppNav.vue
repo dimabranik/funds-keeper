@@ -3,9 +3,8 @@
     <div class="navbar-header">
       <router-link to="/" class="navbar-brand" v-bind:class="{ active: location === 'home'}" v-show="isLoggedIn()" > Home </router-link>
 
-      <router-link to="/statistic" class="navbar-brand" v-bind:class="{ active: location === 'statistic' }"  v-show="isLoggedIn()" > Statistic </router-link>
+      <router-link to="/history" class="navbar-brand" v-bind:class="{ active: location === 'history' }"  v-show="isLoggedIn()" > History </router-link>
 
-      <!-- <router-link to="/account" class="navbar-brand" v-bind:class="{ active: location === 'account' }"  v-show="isLoggedIn()" > Account </router-link> -->
     </div>
 
     <ul class="nav navbar-nav navbar-right logout">

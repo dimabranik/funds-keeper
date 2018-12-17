@@ -2,8 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import StartComponent from '@/components/StartComponent';
 import HomeComponent from '@/components/HomeComponent';
-import StatisticComponent from '@/components/StatisticComponent';
-import AccountComponent from '@/components/AccountComponent';
+import AccountsHistoryComponent from '@/components/AccountsHistoryComponent';
 import RecordAddIncomeComponent from '@/components/RecordAddIncomeComponent';
 import RecordAddExpenseComponent from '@/components/RecordAddExpenseComponent';
 import AccountAddKeepComponent from '@/components/AccountAddKeepComponent';
@@ -29,10 +28,10 @@ export default new Router({
       component: HomeComponent,
     },
     {
-      path: '/statistic',
-      name: 'Statistic',
+      path: '/history',
+      name: 'AccountsHistoryComponent',
       beforeEnter: requireAuth,
-      component: StatisticComponent,
+      component: AccountsHistoryComponent,
     },
     {
       path: '/income',
@@ -45,12 +44,6 @@ export default new Router({
       name: 'Expense',
       beforeEnter: requireAuth,
       component: RecordAddExpenseComponent,
-    },
-    {
-      path: '/account',
-      name: 'Account',
-      beforeEnter: requireAuth,
-      component: AccountComponent,
     },
     {
       path: '/callback',
