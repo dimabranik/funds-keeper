@@ -118,8 +118,6 @@ export default {
     },
     postExpenses() {
       let flag = false;
-      console.log('this.money_amount:');
-      console.log(this.money_amount);
       if (isPositiveInteger(this.money_amount)) {
         if (this.selected_keep_account) {
           if (this.selected_expense_account) {
@@ -128,7 +126,11 @@ export default {
 
             for (let i = 0; i < this.keep_accounts.length; i += 1) {
               if (this.keep_accounts[i].name === this.selected_keep_account) {
-                if (this.keep_accounts[i].balance >= this.money_amount) {
+                if (this.keep_accounts[i].balance - this.money_amount >= 0) {
+                  console.log(this.keep_accounts[i].balance);
+                  console.log(this.money_amount);
+                  console.log(this.keep_accounts[i].balance >= this.money_amount);
+
                   postExpenses(this.selected_keep_account,
                   this.selected_expense_account, this.money_amount).then((resp) => {
                     console.log(resp);

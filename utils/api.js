@@ -3,7 +3,7 @@ import { getAccessToken, getIdToken } from './auth';
 
 const BASE_URL = 'http://localhost:3000';
 
-export { getBalances, getAccountsKeep, getAccountsExpense, postIncomes, postExpenses, postAccountsKeep };
+export { getBalances, getAccountsKeep, getAccountsExpense, postIncomes, postExpenses, postAccountsKeep, postAccountsExpense };
 
 function getBalances() {
   const url = `${BASE_URL}/api/v1/balances`;
@@ -118,6 +118,23 @@ function postAccountsKeep(keep_account_name, base_currency, initial_balance) {
   form.set('name', keep_account_name);
   form.set('base_currency', base_currency)
   form.set('initial_balance', initial_balance)
+
+  return axios({
+    method: 'post',
+    url: url,
+    data: form,
+    headers: { Authorization: `Bearer ${getIdToken()}`, }, 
+    config: { 'Content-Type': 'multipart/form-data', },
+  }).then(response => response.data);
+}
+
+function postAccountsExpense(expense_account_name, base_currency, month_expenses_limit) {
+  const url = `${BASE_URL}/api/v1/accounts/expense`;
+  
+  let form = new FormData();
+  form.set('name', expense_account_name);
+  form.set('base_currency', base_currency)
+  form.set('month_expenses_limit', month_expenses_limit)
 
   return axios({
     method: 'post',
